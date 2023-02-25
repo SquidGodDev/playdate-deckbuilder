@@ -3,6 +3,10 @@ GameScene.backgroundColor = Graphics.kColorBlack
 
 local MAX_HAND_SIZE <const> = 10
 
+local lerp <const> = function(a, b, t)
+    return a * (1-t) + b * t
+end
+
 local cardBase = Graphics.imagetable.new("assets/images/cards/cardBase")
 
 function GameScene:init()
@@ -10,6 +14,7 @@ function GameScene:init()
     self.cardSprite = self:createCardSprite(cards.zap)
 
     self.cardSprites = {}
+    self.cardBaseY = 220
 
     self.cardPlacements = {}
     for i=1, MAX_HAND_SIZE do
@@ -39,37 +44,30 @@ end
 
 function GameScene:enter()
 	GameScene.super.enter(self)
-
-    self:createHand(self.handSize)
-end
-
-function GameScene:createHand(handSize)
-    local cardY = 220
-    local cardPlacement = self.cardPlacements[handSize]
-    for i=1, #cardPlacement do
-        local cardX = cardPlacement[i]
-        local cardSprite = self:createCardSprite(cards.zap)
-        cardSprite:add(cardX, cardY)
-        -- table.insert(self.cardSprites, cardSprite)
-    end
 end
 
 function GameScene:update()
 	GameScene.super.update(self)
-    if playdate.buttonJustPressed(playdate.kButtonA) then
-        self.handSize += 1
-        Graphics.sprite.removeAll()
-        local backgroundImage = Graphics.image.new(400, 240, Graphics.kColorBlack)
-        local backgroundSprite = NobleSprite()
-        backgroundSprite:setImage(backgroundImage)
-        backgroundSprite:add(200, 120)
-        backgroundSprite:setZIndex(-1000)
-        -- for i=1, #self.cardSprites do
-        --     self.cardSprites[i]:remove()
-        -- end
-        -- self.cardSprites = {}
-        self:createHand(self.handSize)
+    local handCount = #self.cardSprites
+    for i=1, handCount do
+        local cardPlacement = self.cardPlacements[handCount]
+        local cardSprite = self.cardSprites[i]
+        local cardTargetX = cardPlacement[i]
+        local cardX = lerp(cardSprite.x, cardTargetX, 0.2)
+        cardSprite:moveTo(cardX, cardSprite.y)
     end
+    if playdate.buttonJustPressed(playdate.kButtonA) then
+        self:addCard(cards.zap)
+    end
+end
+
+function GameScene:addCard(card)
+    if #self.cardSprites >= MAX_HAND_SIZE then
+        return
+    end
+    local cardSprite = self:createCardSprite(card)
+    cardSprite:add(-20, self.cardBaseY)
+    table.insert(self.cardSprites, 1, cardSprite)
 end
 
 function GameScene:createCardSprite(card)

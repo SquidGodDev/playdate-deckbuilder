@@ -26,5 +26,12 @@ cards = {
         sfx = "",
         action = "",
         values = {2}
+    },
+    cat = {
+        imagePath = "",
+        cost = 2,
+        sfx = "",
+        action = "",
+        values = {2}
     }
 }

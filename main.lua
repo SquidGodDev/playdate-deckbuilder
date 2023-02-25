@@ -11,4 +11,4 @@ Graphics.setFont(mainFont)
 
 Noble.showFPS = true
 
-Noble.new(GameScene, 1.5, Noble.TransitionType.CROSS_DISSOLVE)
+Noble.new(GameScene, 0, Noble.TransitionType.CROSS_DISSOLVE)
