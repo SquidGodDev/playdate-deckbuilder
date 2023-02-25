@@ -15,6 +15,12 @@ function GameScene:init()
 
     self.cardSprites = {}
     self.cardBaseY = 220
+    self.cardSelectY = 200
+    self.cardSelectIndex = 1
+
+    self.cardAnimationLerpSpeed = 0.2
+
+    self.handSize = 1
 
     self.cardPlacements = {}
     for i=1, MAX_HAND_SIZE do
@@ -38,8 +44,6 @@ function GameScene:init()
         end
         table.insert(self.cardPlacements, placements)
     end
-
-    self.handSize = 1
 end
 
 function GameScene:enter()
@@ -53,11 +57,22 @@ function GameScene:update()
         local cardPlacement = self.cardPlacements[handCount]
         local cardSprite = self.cardSprites[i]
         local cardTargetX = cardPlacement[i]
-        local cardX = lerp(cardSprite.x, cardTargetX, 0.2)
-        cardSprite:moveTo(cardX, cardSprite.y)
+        local cardX = lerp(cardSprite.x, cardTargetX, self.cardAnimationLerpSpeed)
+        local cardTargetY = self.cardBaseY
+        if i == self.cardSelectIndex then
+            cardTargetY = self.cardSelectY
+        end
+        local cardY = lerp(cardSprite.y, cardTargetY, self.cardAnimationLerpSpeed)
+        cardSprite:moveTo(cardX, cardY)
     end
     if playdate.buttonJustPressed(playdate.kButtonA) then
         self:addCard(cards.zap)
+    end
+
+    if playdate.buttonJustPressed(playdate.kButtonLeft) then
+        self.cardSelectIndex = math.ringInt(self.cardSelectIndex - 1, 1, #self.cardSprites)
+    elseif playdate.buttonJustPressed(playdate.kButtonRight) then
+        self.cardSelectIndex = math.ringInt(self.cardSelectIndex + 1, 1, #self.cardSprites)
     end
 end
 
