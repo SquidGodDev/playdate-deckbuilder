@@ -65,14 +65,33 @@ function GameScene:update()
         local cardY = lerp(cardSprite.y, cardTargetY, self.cardAnimationLerpSpeed)
         cardSprite:moveTo(cardX, cardY)
     end
-    if playdate.buttonJustPressed(playdate.kButtonA) then
+    if playdate.buttonJustPressed(playdate.kButtonB) then
         self:addCard(cards.zap)
+    elseif playdate.buttonJustPressed(playdate.kButtonA) then
+        self:playCard()
     end
 
     if playdate.buttonJustPressed(playdate.kButtonLeft) then
         self.cardSelectIndex = math.ringInt(self.cardSelectIndex - 1, 1, #self.cardSprites)
     elseif playdate.buttonJustPressed(playdate.kButtonRight) then
         self.cardSelectIndex = math.ringInt(self.cardSelectIndex + 1, 1, #self.cardSprites)
+    end
+end
+
+function GameScene:playCard()
+    if #self.cardSprites <= 0 then
+        return
+    end
+    local playedCardSprite = table.remove(self.cardSprites, self.cardSelectIndex)
+    if self.cardSelectIndex > #self.cardSprites then
+        self.cardSelectIndex = #self.cardSprites
+    end
+    local playAnimateTimer = Timer.new(700, playedCardSprite.y, -120, playdate.easingFunctions.outCubic)
+    playAnimateTimer.updateCallback = function(timer)
+        playedCardSprite:moveTo(playedCardSprite.x, timer.value)
+    end
+    playAnimateTimer.timerEndedCallback = function()
+        -- Discard sprite
     end
 end
 
