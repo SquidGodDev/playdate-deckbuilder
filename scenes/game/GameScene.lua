@@ -71,10 +71,12 @@ function GameScene:update()
         self:playCard()
     end
 
-    if playdate.buttonJustPressed(playdate.kButtonLeft) then
-        self.cardSelectIndex = math.ringInt(self.cardSelectIndex - 1, 1, #self.cardSprites)
-    elseif playdate.buttonJustPressed(playdate.kButtonRight) then
-        self.cardSelectIndex = math.ringInt(self.cardSelectIndex + 1, 1, #self.cardSprites)
+    if #self.cardSprites > 0 then
+        if playdate.buttonJustPressed(playdate.kButtonLeft) then
+            self.cardSelectIndex = math.ringInt(self.cardSelectIndex - 1, 1, #self.cardSprites)
+        elseif playdate.buttonJustPressed(playdate.kButtonRight) then
+            self.cardSelectIndex = math.ringInt(self.cardSelectIndex + 1, 1, #self.cardSprites)
+        end
     end
 end
 
