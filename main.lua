@@ -5,6 +5,8 @@ import 'utilities/Utilities'
 import 'assets/data/cards'
 
 import 'scenes/game/GameScene'
+import 'scenes/game/cards/hand'
+import 'scenes/game/enemies/enemy'
 
 local mainFont = Graphics.font.new("assets/fonts/WhackyJoeMonospaced-12")
 Graphics.setFont(mainFont)
