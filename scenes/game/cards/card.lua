@@ -26,7 +26,11 @@ end
 function Card:getStats()
     local modifiedStats = table.shallowcopy(self.stats)
     for stat, flatModifier in pairs(self.flatModifiers) do
-        modifiedStats[stat] += flatModifier
+        local modifiedStat = modifiedStats[stat] + flatModifier
+        if modifiedStat < 0 then
+            modifiedStat = 0
+        end
+        modifiedStats[stat] = modifiedStat
     end
     for stat, multiplicativeModifier in pairs(self.multiplicativeModifiers) do
         local modifiedStat = modifiedStats[stat] * multiplicativeModifier
@@ -42,6 +46,9 @@ function Card:getCost()
     end
     if self.multiplicativeModifiers.cost then
         cost *= self.multiplicativeModifiers.cost
+    end
+    if cost < 0 then
+        cost = 0
     end
     return cost
 end

@@ -1,3 +1,11 @@
+SIGNALS = {
+    death = 1,
+    play = 2,
+    draw = 3,
+    discard = 4,
+    banish = 5
+}
+
 class('GameScene').extends(NobleScene)
 GameScene.backgroundColor = Graphics.kColorBlack
 
