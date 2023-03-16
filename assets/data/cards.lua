@@ -1,30 +1,46 @@
 CARDS = {
     fireball = {
-        imagePath = "",
-        cost = 1,
+        imagePath = "assets/images/cards/fireball",
         sfx = "",
-        action = "",
-        damage = 3
+        properties = {
+
+        },
+        stats = {
+            cost = 1,
+            damage = 3
+        }
     },
     stoneWall = {
-        imagePath = "",
-        cost = 1,
+        imagePath = "assets/images/cards/stonewall",
         sfx = "",
-        action = "",
-        value = 3
+        properties = {
+
+        },
+        stats = {
+            cost = 1,
+            shield = 3
+        }
     },
     zap = {
         imagePath = "assets/images/cards/zap",
-        cost = 0,
         sfx = "",
-        action = "",
-        damage = 1
+        properties = {
+
+        },
+        stats = {
+            cost = 0,
+            damage = 1
+        }
     },
     lightningStrike = {
-        imagePath = "",
-        cost = 2,
+        imagePath = "assets/images/cards/lightningstrike",
         sfx = "",
-        action = "",
-        damage = 2
+        properties = {
+
+        },
+        stats = {
+            cost = 2,
+            damage = 2
+        }
     }
 }

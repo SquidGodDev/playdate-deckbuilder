@@ -6,8 +6,6 @@ local lerp <const> = function(a, b, t)
     return a * (1-t) + b * t
 end
 
-local cardBase <const> = Graphics.imagetable.new("assets/images/cards/cardBase")
-
 local cardPlacements <const> = {}
 for i=1, MAX_HAND_SIZE do
     local baseX = 200
@@ -31,11 +29,11 @@ for i=1, MAX_HAND_SIZE do
     table.insert(cardPlacements, placements)
 end
 
-function Hand:init()
+function Hand:init(deck)
     Hand.super.init(self)
-    self.cardSprite = self:createCardSprite(CARDS.zap)
+    self.deck = deck
 
-    self.cardSprites = {}
+    self.cards = {}
     self.cardBaseY = 220
     self.cardSelectY = 200
     self.cardSelectIndex = 1
@@ -47,89 +45,65 @@ function Hand:init()
 end
 
 function Hand:update()
-    local handCount = #self.cardSprites
+    local handCount = #self.cards
     for i=1, handCount do
         local cardPlacement = cardPlacements[handCount]
-        local cardSprite = self.cardSprites[i]
+        local card = self.cards[i]
         local cardTargetX = cardPlacement[i]
-        local cardX = lerp(cardSprite.x, cardTargetX, self.cardAnimationLerpSpeed)
+        local cardX = lerp(card.x, cardTargetX, self.cardAnimationLerpSpeed)
         local cardTargetY = self.cardBaseY
         if i == self.cardSelectIndex then
             cardTargetY = self.cardSelectY
         end
-        local cardY = lerp(cardSprite.y, cardTargetY, self.cardAnimationLerpSpeed)
-        cardSprite:moveTo(cardX, cardY)
+        local cardY = lerp(card.y, cardTargetY, self.cardAnimationLerpSpeed)
+        card:moveTo(cardX, cardY)
     end
 end
 
 function Hand:selectCardLeft()
-    if #self.cardSprites <= 0 then
+    if #self.cards <= 0 then
         return
     end
-    self.cardSelectIndex = math.ringInt(self.cardSelectIndex - 1, 1, #self.cardSprites)
+    self.cardSelectIndex = math.ringInt(self.cardSelectIndex - 1, 1, #self.cards)
 end
 
 function Hand:selectCardRight()
-    if #self.cardSprites <= 0 then
+    if #self.cards <= 0 then
         return
     end
-    self.cardSelectIndex = math.ringInt(self.cardSelectIndex + 1, 1, #self.cardSprites)
+    self.cardSelectIndex = math.ringInt(self.cardSelectIndex + 1, 1, #self.cards)
 end
 
 function Hand:drawCard()
-    self:addCard(CARDS.zap)
+    if #self.cards >= MAX_HAND_SIZE then
+        return
+    end
+    self:addCard(self.deck:draw())
 end
 
 function Hand:playCard()
-    if #self.cardSprites <= 0 then
+    if #self.cards <= 0 then
         return
     end
-    local playedCardSprite = table.remove(self.cardSprites, self.cardSelectIndex)
-    if self.cardSelectIndex > #self.cardSprites then
-        self.cardSelectIndex = #self.cardSprites
+    local playedCard = table.remove(self.cards, self.cardSelectIndex)
+    if self.cardSelectIndex > #self.cards then
+        self.cardSelectIndex = #self.cards
     end
-    local playAnimateTimer = Timer.new(700, playedCardSprite.y, -120, playdate.easingFunctions.outCubic)
+    local playAnimateTimer = Timer.new(700, playedCard.y, -120, playdate.easingFunctions.outCubic)
     playAnimateTimer.updateCallback = function(timer)
-        playedCardSprite:moveTo(playedCardSprite.x, timer.value)
+        playedCard:moveTo(playedCard.x, timer.value)
     end
     playAnimateTimer.timerEndedCallback = function()
-        -- Discard sprite (Put back in deck?)
+        playedCard:remove()
+        self.deck:discard(playedCard)
     end
 end
 
 function Hand:addCard(card)
-    if #self.cardSprites >= MAX_HAND_SIZE then
+    if #self.cards >= MAX_HAND_SIZE or not card then
         return
     end
-    local cardSprite = self:createCardSprite(card)
-    cardSprite:add(-20, self.cardBaseY)
-    table.insert(self.cardSprites, 1, cardSprite)
+    card:add(-20, self.cardBaseY)
+    table.insert(self.cards, 1, card)
     self.cardSelectIndex = 1
-end
-
-function Hand:createCardSprite(card)
-    local cardImagetable = self:createCardImagetable(card)
-
-    local cardSprite = NobleSprite()
-    local animationLoop = Graphics.animation.loop.new(200, cardImagetable, true)
-    cardSprite.update = function(sprite)
-        sprite:setImage(animationLoop:image())
-    end
-    return cardSprite
-end
-
-function Hand:createCardImagetable(card)
-    local spellImagetable = Graphics.imagetable.new(card.imagePath)
-    local imagetableCount = #spellImagetable
-    local cardImagetable = Graphics.imagetable.new(imagetableCount)
-    for i=1,#spellImagetable do
-        local cardImage = cardBase[i]:copy()
-        Graphics.pushContext(cardImage)
-            Graphics.setImageDrawMode(Graphics.kDrawModeFillWhite)
-            spellImagetable[i]:draw(15, 24)
-            Graphics.drawText(card.cost, 31, 4)
-        Graphics.popContext()
-        cardImagetable:setImage(i, cardImage)
-    end
-    return cardImagetable
 end

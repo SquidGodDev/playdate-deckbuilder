@@ -168,7 +168,7 @@ Graphics.unlockFocus()
 -- @number[opt=0.2] __holdDuration For `DIP` transitions, the time spent holding at the transition midpoint. Does not increase the total transition duration, but is taken from it. So, don't make it longer than the transition duration.
 -- @see NobleScene
 -- @see Noble.TransitionType
-function Noble.transition(NewScene, __duration, __transitionType, __holdDuration)
+function Noble.transition(NewScene, __duration, __transitionType, __holdDuration, ...)
 	if (Noble.isTransitioning) then
 		error("BONK: You can't start a transition in the middle of another transition, silly!")
 	end
@@ -180,7 +180,7 @@ function Noble.transition(NewScene, __duration, __transitionType, __holdDuration
 		currentScene:exit()				-- The current scene runs its "goodbye" code. Sprites are taken out of the simulation.
 	end
 
-	local newScene = NewScene()			-- Creates new scene object. Its init() function runs.
+	local newScene = NewScene(...)			-- Creates new scene object. Its init() function runs.
 
 	local duration = __duration or 1
 	local holdDuration = __holdDuration or 0.2
