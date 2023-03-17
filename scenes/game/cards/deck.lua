@@ -1,17 +1,6 @@
 class('Deck').extends()
 
 function Deck:init(deck)
-    -- Temp deck creation
-    local cardList = {}
-    for _, card in pairs(CARDS) do
-        table.insert(cardList, card)
-    end
-    deck = {}
-    for i=1,20 do
-        local card = Card(cardList[math.random(#cardList)])
-        deck[i] = card
-    end
-
     self.deck = deck
     self.discardPile = {}
 end

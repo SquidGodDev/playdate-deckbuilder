@@ -14,6 +14,6 @@ import 'scenes/game/enemies/enemy'
 local mainFont = Graphics.font.new("assets/fonts/WhackyJoeMonospaced-12")
 Graphics.setFont(mainFont)
 
-Noble.showFPS = true
+-- Noble.showFPS = true
 
 Noble.new(GameScene, 0, Noble.TransitionType.CROSS_DISSOLVE)
