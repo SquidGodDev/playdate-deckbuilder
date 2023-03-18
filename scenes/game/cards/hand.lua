@@ -29,9 +29,11 @@ for i=1, MAX_HAND_SIZE do
     table.insert(cardPlacements, placements)
 end
 
-function Hand:init(deck)
+function Hand:init(deck, game)
     Hand.super.init(self)
     self.deck = deck
+    self.game = game
+    self.player = game.player
 
     self.cards = {}
     self.cardBaseY = 220
@@ -46,8 +48,8 @@ end
 
 function Hand:update()
     local handCount = #self.cards
+    local cardPlacement = cardPlacements[handCount]
     for i=1, handCount do
-        local cardPlacement = cardPlacements[handCount]
         local card = self.cards[i]
         local cardTargetX = cardPlacement[i]
         local cardX = lerp(card.x, cardTargetX, self.cardAnimationLerpSpeed)
@@ -85,7 +87,19 @@ function Hand:playCard()
     if #self.cards <= 0 then
         return
     end
-    local playedCard = table.remove(self.cards, self.cardSelectIndex)
+
+    local playedCard = self.cards[self.cardSelectIndex]
+    local cardCost = playedCard:getCost()
+    if not self.player:hasEnoughMana(cardCost) then
+        return
+    end
+
+    if not playedCard:onPlay(self.game) then
+        return
+    end
+
+    self.player:useMana(cardCost)
+    table.remove(self.cards, self.cardSelectIndex)
     if self.cardSelectIndex > #self.cards then
         self.cardSelectIndex = #self.cards
     end

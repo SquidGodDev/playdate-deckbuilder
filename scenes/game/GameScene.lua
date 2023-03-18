@@ -34,8 +34,9 @@ function GameScene:enter()
 	GameScene.super.enter(self)
 
     -- Init
-    self.hand = Hand(self.deck)
+    self.hand = Hand(self.deck, self)
     self.player:createUI()
+    self.enemyManager = EnemyManager()
 end
 
 function GameScene:update()

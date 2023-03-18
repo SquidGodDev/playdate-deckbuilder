@@ -84,6 +84,8 @@ function Card:onPlay(game)
     for _, property in ipairs(self.properties) do
         property:onPlay(self, game)
     end
+
+    return true
 end
 
 function Card:onDraw()

@@ -74,6 +74,14 @@ function Player:heal(amount)
     self:updateHealthText()
 end
 
+function Player:getMana()
+    return self.mana
+end
+
+function Player:hasEnoughMana(cost)
+    return self:getMana() >= cost
+end
+
 function Player:useMana(amount)
     self.mana = math.max(self.mana - amount, 0)
     self:updateManaText()
