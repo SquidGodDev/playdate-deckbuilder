@@ -83,7 +83,15 @@ function Hand:drawCard()
     self:addCard(self.deck:draw())
 end
 
-function Hand:playCard()
+function Hand:isEmpty()
+    return #self.cards <= 0
+end
+
+function Hand:cardIsSingleTarget()
+    return self.cards[self.cardSelectIndex]:isSingleTarget()
+end
+
+function Hand:playCard(enemyIndex)
     if #self.cards <= 0 then
         return
     end
@@ -94,10 +102,7 @@ function Hand:playCard()
         return
     end
 
-    if not playedCard:onPlay(self.game) then
-        return
-    end
-
+    playedCard:onPlay(self.game, enemyIndex)
     self.player:useMana(cardCost)
     table.remove(self.cards, self.cardSelectIndex)
     if self.cardSelectIndex > #self.cards then

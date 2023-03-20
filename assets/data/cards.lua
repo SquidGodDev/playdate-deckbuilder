@@ -7,7 +7,8 @@ CARDS = {
         },
         stats = {
             cost = 1,
-            damage = 3
+            damage = 3,
+            singleTarget = true
         }
     },
     stoneWall = {
@@ -29,7 +30,8 @@ CARDS = {
         },
         stats = {
             cost = 0,
-            damage = 1
+            damage = 1,
+            singleTarget = true
         }
     },
     lightningStrike = {

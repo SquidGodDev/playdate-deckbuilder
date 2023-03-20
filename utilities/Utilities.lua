@@ -23,3 +23,18 @@ function Utilities.createAnimatedSprite(imagetable)
     end
     return sprite
 end
+
+function Utilities.animateSprite(sprite, imagetable)
+    sprite:setImage(imagetable[1])
+    local loopDuration = 5
+    local animateTimer = playdate.frameTimer.new(loopDuration)
+    local repeatFrame = math.random(0, loopDuration)
+    animateTimer.repeats = true
+    local imagetableIndex = 1
+    animateTimer.updateCallback = function(timer)
+        if timer.frame == repeatFrame then
+            imagetableIndex = (imagetableIndex % #imagetable) + 1
+            sprite:setImage(imagetable[imagetableIndex])
+        end
+    end
+end

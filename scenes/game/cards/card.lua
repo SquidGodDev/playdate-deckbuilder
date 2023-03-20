@@ -39,6 +39,10 @@ function Card:getStats()
     return modifiedStats
 end
 
+function Card:isSingleTarget()
+    return self.stats.singleTarget
+end
+
 function Card:getCost()
     local cost = self.stats.cost
     if self.flatModifiers.cost then
@@ -80,12 +84,10 @@ function Card:resetModifiers()
     self.multiplicativeModifiers = {}
 end
 
-function Card:onPlay(game)
+function Card:onPlay(game, index)
     for _, property in ipairs(self.properties) do
-        property:onPlay(self, game)
+        property:onPlay(self, game, index)
     end
-
-    return true
 end
 
 function Card:onDraw()
@@ -112,7 +114,6 @@ function Card:update()
         self.drawLoopCounter = 0
         self.drawLoopIndex = (self.drawLoopIndex % #self.imagetable) + 1
     end
-    print(self.drawLoopCounter)
     self:setImage(self.imagetable[self.drawLoopIndex])
 end
 

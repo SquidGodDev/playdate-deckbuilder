@@ -9,7 +9,7 @@ function Enemy:init(imagePath, health)
     Enemy.super.init(self)
 
     local enemyImagetable = Graphics.imagetable.new(imagePath)
-    self.animationLoop = Graphics.animation.loop.new(200, enemyImagetable, true)
+    Utilities.animateSprite(self, enemyImagetable)
 
     self.health = health
 
@@ -17,7 +17,7 @@ function Enemy:init(imagePath, health)
     self.intentValue = 10
 
     local _, spriteHeight = self:getSize()
-    self.healthYOffset = (spriteHeight / 2) + 45
+    self.healthYOffset = (spriteHeight / 2) + 10
     self.intentYOffset = -self.healthYOffset
 
     local heartImageTable = Graphics.imagetable.new("assets/images/enemies/smallHeart")
@@ -57,7 +57,6 @@ function Enemy:centerUI(icon, text, yOffset)
 end
 
 function Enemy:update()
-    self:setImage(self.animationLoop:image())
     self:centerUI(self.heartSprite, self.healthText, self.healthYOffset)
     self:centerUI(self.intentSprite, self.intentText, self.intentYOffset)
 end

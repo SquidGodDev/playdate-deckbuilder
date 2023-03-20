@@ -23,6 +23,8 @@ end
 
 function EnemyManager:init()
     self.enemies = {
+        BasicEnemy(ENEMIES.blokus),
+        BasicEnemy(ENEMIES.blokus),
         BasicEnemy(ENEMIES.blokus)
     }
     self.enemiesLerpSpeed = 0.1
@@ -32,6 +34,14 @@ function EnemyManager:init()
 
     self:addEnemies()
     Noble.currentScene():addSprite(self)
+end
+
+function EnemyManager:getEnemyCount()
+    return #self.enemies
+end
+
+function EnemyManager:getPlacement()
+    return enemyPlacements[#self.enemies]
 end
 
 function EnemyManager:addEnemies()
