@@ -36,6 +36,21 @@ function EnemyManager:init()
     Noble.currentScene():addSprite(self)
 end
 
+function EnemyManager:damageEnemy(index, amount)
+    local enemy = self.enemies[index]
+    if not enemy then
+        return
+    end
+
+    enemy:damage(amount)
+end
+
+function EnemyManager:damageAllEnemies(amount)
+    for _, enemy in ipairs(self.enemies) do
+        enemy:damage(amount)
+    end
+end
+
 function EnemyManager:getEnemyCount()
     return #self.enemies
 end

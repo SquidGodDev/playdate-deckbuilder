@@ -9,7 +9,7 @@ function Card:init(data)
     self.properties = {}
     for i=1,#data.properties do
         local Property = data.properties[i]
-        self.properties[i] = Property()
+        self.properties[i] = Property(self.stats)
     end
 
     self.flatModifiers = {}
@@ -86,25 +86,25 @@ end
 
 function Card:onPlay(game, index)
     for _, property in ipairs(self.properties) do
-        property:onPlay(self, game, index)
+        property:onPlay(self.stats, self, game, index)
     end
 end
 
 function Card:onDraw()
     for _, property in ipairs(self.properties) do
-        property:onDraw(self, game)
+        property:onDraw(self.stats, self, game)
     end
 end
 
 function Card:onDiscard(game)
     for _, property in ipairs(self.properties) do
-        property:onDiscard(self, game)
+        property:onDiscard(self.stats, self, game)
     end
 end
 
 function Card:onBanish(game)
     for _, property in ipairs(self.properties) do
-        property:onBanish(self, game)
+        property:onBanish(self.stats, self, game)
     end
 end
 

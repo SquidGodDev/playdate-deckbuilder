@@ -3,7 +3,7 @@ CARDS = {
         imagePath = "assets/images/cards/fireball",
         sfx = "",
         properties = {
-
+            SingleTargetDamage
         },
         stats = {
             cost = 1,
@@ -12,7 +12,7 @@ CARDS = {
         }
     },
     stoneWall = {
-        imagePath = "assets/images/cards/stonewall",
+        imagePath = "assets/images/cards/stoneWall",
         sfx = "",
         properties = {
 
@@ -26,7 +26,7 @@ CARDS = {
         imagePath = "assets/images/cards/zap",
         sfx = "",
         properties = {
-
+            SingleTargetDamage
         },
         stats = {
             cost = 0,
@@ -35,10 +35,10 @@ CARDS = {
         }
     },
     lightningStrike = {
-        imagePath = "assets/images/cards/lightningstrike",
+        imagePath = "assets/images/cards/lightningStrike",
         sfx = "",
         properties = {
-
+            AoeDamage
         },
         stats = {
             cost = 2,

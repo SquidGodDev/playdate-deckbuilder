@@ -106,6 +106,10 @@ function Enemy:damage(amount)
         self:die()
     end
     self:updateHeartDisplay()
+    self:setImageDrawMode(Graphics.kDrawModeFillWhite)
+    Timer.performAfterDelay(100, function()
+        self:setImageDrawMode(Graphics.kDrawModeCopy)
+    end)
 end
 
 function Enemy:heal(amount)

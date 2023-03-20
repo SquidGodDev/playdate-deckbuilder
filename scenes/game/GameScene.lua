@@ -60,11 +60,13 @@ function GameScene:update()
     if self.state == GAME_STATE.selectingCard then
         if playdate.buttonJustPressed(playdate.kButtonB) then
             self.hand:drawCard()
-        elseif playdate.buttonJustPressed(playdate.kButtonA) and not self.hand:isEmpty() then
-            if self.hand:cardIsSingleTarget() then
-                self:switchToTargetSelection()
-            else
-                self.hand:playCard()
+        elseif playdate.buttonJustPressed(playdate.kButtonA) then
+            if not self.hand:isEmpty() and self.hand:hasEnoughMana() then
+                if self.hand:cardIsSingleTarget() then
+                    self:switchToTargetSelection()
+                else
+                    self.hand:playCard()
+                end
             end
         elseif playdate.buttonJustPressed(playdate.kButtonLeft) then
             self.hand:selectCardLeft()

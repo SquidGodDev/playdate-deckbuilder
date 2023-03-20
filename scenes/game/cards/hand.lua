@@ -91,6 +91,12 @@ function Hand:cardIsSingleTarget()
     return self.cards[self.cardSelectIndex]:isSingleTarget()
 end
 
+function Hand:hasEnoughMana()
+    local card = self.cards[self.cardSelectIndex]
+    local cardCost = card:getCost()
+    return self.player:hasEnoughMana(cardCost)
+end
+
 function Hand:playCard(enemyIndex)
     if #self.cards <= 0 then
         return

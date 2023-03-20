@@ -39,7 +39,10 @@ end
 
 function Reticle:animateIn()
     self.targetY = self.inY
-    self.index = 1
+    local enemyCount = self.enemyManager:getEnemyCount()
+    if self.index > enemyCount then
+        self.index = enemyCount
+    end
 end
 
 function Reticle:animateOut()
@@ -48,8 +51,7 @@ end
 
 function Reticle:update()
     local enemyPlacement = self.enemyManager:getPlacement()
-    printTable(enemyPlacement)
-    local targetX = enemyPlacement[self.index] or enemyPlacement[1]
+    local targetX = enemyPlacement[self.index] or enemyPlacement[self.enemyManager:getEnemyCount()]
     local reticleX = lerp(self.x, targetX, self.lerpSpeed)
     local reticleY = lerp(self.y, self.targetY, self.lerpSpeed)
     self:moveTo(reticleX, reticleY)

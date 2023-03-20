@@ -2,6 +2,13 @@ import 'libraries/noble/Noble'
 
 import 'utilities/Utilities'
 
+-- Properties
+import 'scenes/game/cards/properties/property'
+import 'scenes/game/cards/properties/singleTargetDamage'
+import 'scenes/game/cards/properties/aoeDamage'
+import 'scenes/game/cards/properties/cardDraw'
+
+-- Data
 import 'assets/data/cards'
 import 'assets/data/enemies'
 
@@ -9,7 +16,6 @@ import 'scenes/game/GameScene'
 import 'scenes/game/cards/hand'
 import 'scenes/game/cards/deck'
 import 'scenes/game/cards/card'
-import 'scenes/game/cards/property'
 import 'scenes/game/player/player'
 import 'scenes/game/UI/reticle'
 import 'scenes/game/enemies/enemyManager'
