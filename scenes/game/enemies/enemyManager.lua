@@ -1,9 +1,5 @@
 class('EnemyManager').extends(Graphics.sprite)
 
-local lerp <const> = function(a, b, t)
-    return a * (1-t) + b * t
-end
-
 local maxEnemies <const> = 4
 local enemyPlacements <const> = {}
 for i=1, maxEnemies do
@@ -21,19 +17,46 @@ for i=1, maxEnemies do
     table.insert(enemyPlacements, placements)
 end
 
-function EnemyManager:init()
+function EnemyManager:init(game)
+    self.game = game
     self.enemies = {
-        BasicEnemy(ENEMIES.blokus),
-        BasicEnemy(ENEMIES.blokus),
-        BasicEnemy(ENEMIES.blokus)
+        BasicEnemy(game, ENEMIES.blokus),
+        BasicEnemy(game, ENEMIES.blokus),
+        BasicEnemy(game, ENEMIES.blokus)
     }
-    self.enemiesLerpSpeed = 0.1
     self.enemyBaseY = 90
 
-    self.enemySpawnY = -30
+    self.enemySpawnY = self.enemyBaseY
 
     self:addEnemies()
     Noble.currentScene():addSprite(self)
+end
+
+function EnemyManager:enemyTurn()
+    local delayBetweenEnemies = 500
+    local postTurnDelay = 500
+    local delayTime = 0
+    local turnCoroutine = coroutine.create(function(co)
+        for i=1,#self.enemies do
+            local enemy = self.enemies[i]
+            Timer.performAfterDelay(delayTime, function()
+                delayTime = enemy:act() + delayBetweenEnemies
+                coroutine.resume(co)
+            end)
+            coroutine.yield()
+        end
+        Timer.performAfterDelay(postTurnDelay, function ()
+            self.game:switchToPlayerTurn()
+        end)
+    end)
+    coroutine.resume(turnCoroutine, turnCoroutine)
+end
+
+function EnemyManager:updateIntents()
+    for _, enemy in ipairs(self.enemies) do
+        enemy:setIntent()
+        enemy:updateIntentDisplay()
+    end
 end
 
 function EnemyManager:damageEnemy(index, amount)
@@ -75,8 +98,6 @@ function EnemyManager:update()
     for i=1, enemyCount do
         local enemy = self.enemies[i]
         local targetX = enemyPlacement[i]
-        local enemyX = lerp(enemy.x, targetX, self.enemiesLerpSpeed)
-        local enemyY = lerp(enemy.y, self.enemyBaseY, self.enemiesLerpSpeed)
-        enemy:moveTo(enemyX, enemyY)
+        enemy:lerpTo(targetX, self.enemyBaseY)
     end
 end

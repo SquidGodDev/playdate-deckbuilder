@@ -35,6 +35,8 @@ function Hand:init(deck, game)
     self.game = game
     self.player = game.player
 
+    self.startingDrawCount = 5
+
     self.cards = {}
     self.cardBaseY = 220
     self.cardSelectY = 200
@@ -114,13 +116,24 @@ function Hand:playCard(enemyIndex)
     if self.cardSelectIndex > #self.cards then
         self.cardSelectIndex = #self.cards
     end
+    self.deck:discard(playedCard)
     local playAnimateTimer = Timer.new(700, playedCard.y, -120, playdate.easingFunctions.outCubic)
     playAnimateTimer.updateCallback = function(timer)
         playedCard:moveTo(playedCard.x, timer.value)
     end
     playAnimateTimer.timerEndedCallback = function()
         playedCard:remove()
-        self.deck:discard(playedCard)
+    end
+end
+
+function Hand:discardCard(card)
+    self.deck:discard(card)
+    local discardAnimateTimer = Timer.new(700, card.x, 440, playdate.easingFunctions.outCubic)
+    discardAnimateTimer.updateCallback = function(timer)
+        card:moveTo(timer.value, card.y)
+    end
+    discardAnimateTimer.timerEndedCallback = function()
+        card:remove()
     end
 end
 
@@ -131,4 +144,19 @@ function Hand:addCard(card)
     card:add(-20, self.cardBaseY)
     table.insert(self.cards, 1, card)
     self.cardSelectIndex = 1
+end
+
+function Hand:discardHand()
+    self.cardSelectIndex = 1
+    for i=#self.cards,1,-1 do
+        local card = table.remove(self.cards, i)
+        self:discardCard(card)
+    end
+end
+
+function Hand:refresh()
+    self:discardHand()
+    for _=1,self.startingDrawCount do
+        self:drawCard()
+    end
 end

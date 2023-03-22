@@ -45,21 +45,35 @@ function GameScene:enter()
     -- Init
     self.hand = Hand(self.deck, self)
     self.player:createUI()
-    self.enemyManager = EnemyManager()
+    self.enemyManager = EnemyManager(self)
     self.reticle = Reticle(self, self.enemyManager)
     self:addSprite(self.reticle)
+    self:switchToPlayerTurn()
 end
 
+-- State transitions
 function GameScene:switchToTargetSelection()
     self.state = GAME_STATE.singleTargetSelection
     self.reticle:animateIn()
+end
+
+function GameScene:switchToPlayerTurn()
+    self.state = GAME_STATE.selectingCard
+    self.enemyManager:updateIntents()
+    self.hand:refresh()
+    self.player:resetMana()
+end
+
+function GameScene:switchToEnemyTurn()
+    self.state = GAME_STATE.enemyAction
+    self.enemyManager:enemyTurn()
 end
 
 function GameScene:update()
 	GameScene.super.update(self)
     if self.state == GAME_STATE.selectingCard then
         if playdate.buttonJustPressed(playdate.kButtonB) then
-            self.hand:drawCard()
+            self:switchToEnemyTurn()
         elseif playdate.buttonJustPressed(playdate.kButtonA) then
             if not self.hand:isEmpty() and self.hand:hasEnoughMana() then
                 if self.hand:cardIsSingleTarget() then

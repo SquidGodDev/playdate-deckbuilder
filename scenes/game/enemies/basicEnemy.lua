@@ -1,7 +1,7 @@
 class('BasicEnemy').extends(Enemy)
 
-function BasicEnemy:init(data)
-    BasicEnemy.super.init(self, data.imagePath, data.health)
+function BasicEnemy:init(game, data)
+    BasicEnemy.super.init(self, game, data.imagePath, data.health)
     self.damageValues = data.damage
     self.healValues = data.heal
     self.attackChance = data.attackChance

@@ -3,18 +3,23 @@ INTENTS = {
     heal = 2
 }
 
+local lerp <const> = function(a, b, t)
+    return a * (1-t) + b * t
+end
+
 class('Enemy').extends(NobleSprite)
 
-function Enemy:init(imagePath, health)
+function Enemy:init(game, imagePath, health)
     Enemy.super.init(self)
 
+    self.game = game
     local enemyImagetable = Graphics.imagetable.new(imagePath)
     Utilities.animateSprite(self, enemyImagetable)
 
     self.health = health
 
     self.intent = INTENTS.attack
-    self.intentValue = 10
+    self.intentValue = 5
 
     local _, spriteHeight = self:getSize()
     self.healthYOffset = (spriteHeight / 2) + 10
@@ -41,6 +46,11 @@ function Enemy:init(imagePath, health)
 
     self:updateHeartDisplay()
     self:updateIntentDisplay()
+
+    self.lerpSpeed = 0.2
+    self.animating = false
+
+    self.animator = nil
 end
 
 function Enemy:centerUI(icon, text, yOffset)
@@ -56,13 +66,24 @@ function Enemy:centerUI(icon, text, yOffset)
     text:moveTo(textX, self.y + yOffset)
 end
 
+function Enemy:lerpTo(x, y)
+    if not self.animator then
+        local enemyX = lerp(self.x, x, self.lerpSpeed)
+        local enemyY = lerp(self.y, y, self.lerpSpeed)
+        self:moveTo(enemyX, enemyY)
+    end
+end
+
 function Enemy:update()
     self:centerUI(self.heartSprite, self.healthText, self.healthYOffset)
     self:centerUI(self.intentSprite, self.intentText, self.intentYOffset)
-end
-
-function Enemy:setGameScene(gameScene)
-    self.gameScene = gameScene
+    if self.animator then
+        local point = self.animator:currentValue()
+        self:moveTo(point.x, point.y)
+        if self.animator:ended() then
+            self.animator = nil
+        end
+    end
 end
 
 function Enemy:updateHeartDisplay()
@@ -88,15 +109,23 @@ end
 
 function Enemy:act()
     if self.intent == INTENTS.attack then
-        self:attack(self.intentValue)
+        return self:attack(self.intentValue)
     elseif self.intent == INTENTS.heal then
-        self.heal(self.intentValue)
+        return self:heal(self.intentValue)
     end
 end
 
 function Enemy:attack(amount)
     -- Attack animation
-    self.gameScene:damagePlayer(amount)
+    local anim1Time, anim2Time = 200, 100
+    local attackAnimationTime = anim1Time + anim2Time
+    local attackLine1 = Geometry.lineSegment.new(self.x, self.y, self.x, self.y - 20)
+    local attackLine2 = Geometry.lineSegment.new(self.x, self.y, self.x - 20, self.y + 10)
+    self.animator = Graphics.animator.new({anim1Time, anim2Time}, {attackLine1, attackLine2}, {Ease.linear, Ease.linear})
+    Timer.performAfterDelay(attackAnimationTime, function()
+        self.game.player:damage(amount)
+    end)
+    return attackAnimationTime
 end
 
 function Enemy:damage(amount)
@@ -110,11 +139,16 @@ function Enemy:damage(amount)
     Timer.performAfterDelay(100, function()
         self:setImageDrawMode(Graphics.kDrawModeCopy)
     end)
+
+    local hitLine = Geometry.lineSegment.new(self.x, self.y, self.x + 10, self.y - 10)
+    self.animator = Graphics.animator.new(100, hitLine)
 end
 
 function Enemy:heal(amount)
+    local healTime = 100
     self.health += amount
     self:updateHeartDisplay()
+    return healTime
 end
 
 function Enemy:die()
