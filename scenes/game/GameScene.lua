@@ -63,12 +63,13 @@ end
 function GameScene:switchToPlayerTurn()
     self.state = GAME_STATE.selectingCard
     self.enemyManager:updateIntents()
-    self.hand:refresh()
+    self.hand:drawHand()
     self.player:resetMana()
 end
 
 function GameScene:switchToEnemyTurn()
     self.state = GAME_STATE.enemyAction
+    self.hand:discardHand()
     self.enemyManager:enemyTurn()
 end
 

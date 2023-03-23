@@ -129,18 +129,18 @@ function Enemy:attack(amount)
 end
 
 function Enemy:damage(amount)
+    self:setImageDrawMode(Graphics.kDrawModeFillWhite)
+    Timer.performAfterDelay(100, function()
+        self:setImageDrawMode(Graphics.kDrawModeCopy)
+    end)
     self.health -= amount
     if self.health <= 0 then
         self.health = 0
         self:die()
         return true
     end
-    self:updateHeartDisplay()
-    self:setImageDrawMode(Graphics.kDrawModeFillWhite)
-    Timer.performAfterDelay(100, function()
-        self:setImageDrawMode(Graphics.kDrawModeCopy)
-    end)
 
+    self:updateHeartDisplay()
     local hitLine = Geometry.lineSegment.new(self.x, self.y, self.x + 10, self.y - 10)
     self.animator = Graphics.animator.new(100, hitLine)
     return false

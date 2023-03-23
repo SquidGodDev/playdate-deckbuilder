@@ -154,8 +154,7 @@ function Hand:discardHand()
     end
 end
 
-function Hand:refresh()
-    self:discardHand()
+function Hand:drawHand()
     for _=1,self.startingDrawCount do
         self:drawCard()
     end
