@@ -38,3 +38,19 @@ function Utilities.animateSprite(sprite, imagetable)
         end
     end
 end
+
+function Utilities.particle(x, y, imagetablePath, frameTime, repeats)
+    local imagetable = Graphics.imagetable.new(imagetablePath)
+    assert(imagetable)
+    local particle = NobleSprite()
+    particle:setImage(imagetable[1])
+    particle:add(x, y)
+    local animationLoop = Graphics.animation.loop.new(frameTime, imagetable, repeats)
+    particle.update = function(self)
+        self:setImage(animationLoop:image())
+        if not animationLoop:isValid() then
+            self:remove()
+        end
+    end
+    return particle
+end
