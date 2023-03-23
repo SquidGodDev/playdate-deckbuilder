@@ -133,6 +133,7 @@ function Enemy:damage(amount)
     if self.health <= 0 then
         self.health = 0
         self:die()
+        return true
     end
     self:updateHeartDisplay()
     self:setImageDrawMode(Graphics.kDrawModeFillWhite)
@@ -142,6 +143,7 @@ function Enemy:damage(amount)
 
     local hitLine = Geometry.lineSegment.new(self.x, self.y, self.x + 10, self.y - 10)
     self.animator = Graphics.animator.new(100, hitLine)
+    return false
 end
 
 function Enemy:heal(amount)
@@ -152,5 +154,15 @@ function Enemy:heal(amount)
 end
 
 function Enemy:die()
-    self:remove()
+    self.intentSprite:remove()
+    self.intentText:remove()
+    self.heartSprite:remove()
+    self.healthText:remove()
+
+    local animateOutTime = 700
+    local animateOutLine = Geometry.lineSegment.new(self.x, self.y, self.x, 300)
+    self.animator = Graphics.animator.new(animateOutTime, animateOutLine, Ease.inBack)
+    Timer.performAfterDelay(animateOutTime, function()
+        self:remove()
+    end)
 end

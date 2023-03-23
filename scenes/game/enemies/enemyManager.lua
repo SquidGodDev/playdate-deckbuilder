@@ -65,12 +65,15 @@ function EnemyManager:damageEnemy(index, amount)
         return
     end
 
-    enemy:damage(amount)
+    local enemyDied = enemy:damage(amount)
+    if enemyDied then
+        table.remove(self.enemies, index)
+    end
 end
 
 function EnemyManager:damageAllEnemies(amount)
-    for _, enemy in ipairs(self.enemies) do
-        enemy:damage(amount)
+    for i=#self.enemies,1,-1 do
+        self:damageEnemy(i, amount)
     end
 end
 

@@ -1,5 +1,5 @@
+-- Libraries
 import 'libraries/noble/Noble'
-
 import 'utilities/Utilities'
 
 -- Properties
@@ -12,12 +12,15 @@ import 'scenes/game/cards/properties/cardDraw'
 import 'assets/data/cards'
 import 'assets/data/enemies'
 
+-- Game
 import 'scenes/game/GameScene'
 import 'scenes/game/cards/hand'
 import 'scenes/game/cards/deck'
 import 'scenes/game/cards/card'
 import 'scenes/game/player/player'
 import 'scenes/game/UI/reticle'
+
+-- Enemies
 import 'scenes/game/enemies/enemyManager'
 import 'scenes/game/enemies/enemy'
 import 'scenes/game/enemies/basicEnemy'
