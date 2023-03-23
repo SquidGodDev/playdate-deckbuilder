@@ -147,9 +147,15 @@ function Enemy:damage(amount)
 end
 
 function Enemy:heal(amount)
-    local healTime = 100
     self.health += amount
     self:updateHeartDisplay()
+    local healTime = 100
+    local healLine = Geometry.lineSegment.new(self.x, self.y, self.x, self.y - 20)
+    self.animator = Graphics.animator.new(healTime, healLine)
+    self:setImageDrawMode(Graphics.kDrawModeFillWhite)
+    Timer.performAfterDelay(100, function()
+        self:setImageDrawMode(Graphics.kDrawModeCopy)
+    end)
     return healTime
 end
 
