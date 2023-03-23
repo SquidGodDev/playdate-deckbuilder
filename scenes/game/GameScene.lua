@@ -18,6 +18,7 @@ GameScene.backgroundColor = Graphics.kColorBlack
 
 function GameScene:init(playerMaxHealth, playerHealth, deck)
     GameScene.super.init(self)
+    Graphics.setBackgroundColor(Graphics.kColorBlack)
     -- ===== Temp values =====
     local cardList = {}
     for _, card in pairs(CARDS) do
@@ -34,9 +35,11 @@ function GameScene:init(playerMaxHealth, playerHealth, deck)
 
     -- Init
     self.deck = Deck(deck)
-    self.player = Player(playerMaxHealth, playerHealth, 3)
+    self.player = Player(self, playerMaxHealth, playerHealth, 3)
 
     self.state = GAME_STATE.selectingCard
+
+    self.screenShakeTimer = nil
 end
 
 function GameScene:enter()
@@ -102,4 +105,34 @@ function GameScene:update()
     elseif self.state == GAME_STATE.enemyAction then
 
     end
+end
+
+function GameScene:screenShake()
+    if self.screenShakeTimer then
+        self.screenShakeTimer:remove()
+    end
+    local shakeTime = 400
+    local shakeIntensity = 5
+    self.screenShakeTimer = Timer.new(shakeTime, shakeIntensity, 0)
+    self.screenShakeTimer.timerEndedCallback = function()
+        Display.setOffset(0, 0)
+    end
+    self.screenShakeTimer.updateCallback = function(timer)
+        local shakeAmount = timer.value
+        local shakeAngle = math.random()*math.pi*2;
+        shakeX = math.floor(math.cos(shakeAngle)*shakeAmount);
+        shakeY = math.floor(math.sin(shakeAngle)*shakeAmount);
+        Display.setOffset(shakeX, shakeY)
+    end
+end
+
+function GameScene:finish()
+	GameScene.super.finish(self)
+    local allTimers = Timer.allTimers()
+    if allTimers then
+        for _, timer in ipairs(allTimers) do
+            timer:remove()
+        end
+    end
+    Display.setOffset(0, 0)
 end

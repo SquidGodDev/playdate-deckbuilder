@@ -1,6 +1,7 @@
 class('Player').extends()
 
-function Player:init(maxHealth, health, baseMana)
+function Player:init(game, maxHealth, health, baseMana)
+    self.game = game
     self.maxHealth = maxHealth
     self.health = health
     self.shield = 0
@@ -16,24 +17,24 @@ function Player:createUI()
     local UIGap = 36
 
     local heartImageTable = Graphics.imagetable.new("assets/images/ui/heart")
-    local heartSprite = Utilities.createAnimatedSprite(heartImageTable)
-    heartSprite:add(UIBaseX, UIBaseY)
+    self.heartSprite = Utilities.createAnimatedSprite(heartImageTable)
+    self.heartSprite:add(UIBaseX, UIBaseY)
     self.healthText = NobleSprite()
     self.healthText:setCenter(0, 0.5)
     self.healthText:add(textBaseX, UIBaseY)
     self:updateHealthText()
 
     local shieldImageTable = Graphics.imagetable.new("assets/images/ui/shield")
-    local shieldSprite = Utilities.createAnimatedSprite(shieldImageTable)
-    shieldSprite:add(UIBaseX, UIBaseY + UIGap)
+    self.shieldSprite = Utilities.createAnimatedSprite(shieldImageTable)
+    self.shieldSprite:add(UIBaseX, UIBaseY + UIGap)
     self.shieldText = NobleSprite()
     self.shieldText:setCenter(0, 0.5)
     self.shieldText:add(textBaseX, UIBaseY + UIGap)
     self:updateShieldText()
 
     local manaImageTable = Graphics.imagetable.new("assets/images/ui/mana")
-    local manaSprite = Utilities.createAnimatedSprite(manaImageTable)
-    manaSprite:add(UIBaseX, UIBaseY + UIGap * 2)
+    self.manaSprite = Utilities.createAnimatedSprite(manaImageTable)
+    self.manaSprite:add(UIBaseX, UIBaseY + UIGap * 2)
     self.manaText = NobleSprite()
     self.manaText:setCenter(0, 0.5)
     self.manaText:add(textBaseX, UIBaseY + UIGap * 2)
@@ -60,7 +61,14 @@ end
 
 -- Player Methods
 function Player:damage(amount)
+    self.game:screenShake()
     local amountAfterShield = self:hitShield(amount)
+    if amountAfterShield > 0 then
+        self.heartSprite:setImageDrawMode(Graphics.kDrawModeFillWhite)
+        Timer.performAfterDelay(100, function()
+            self.heartSprite:setImageDrawMode(Graphics.kDrawModeCopy)
+        end)
+    end
     self.health -= amountAfterShield
     if self.health <= 0 then
         self.health = 0
@@ -108,6 +116,12 @@ function Player:resetShield()
 end
 
 function Player:hitShield(amount)
+    if self.shield > 0 then
+        self.shieldSprite:setImageDrawMode(Graphics.kDrawModeFillWhite)
+        Timer.performAfterDelay(100, function()
+            self.shieldSprite:setImageDrawMode(Graphics.kDrawModeCopy)
+        end)
+    end
     local remainder = math.max(amount - self.shield, 0)
     self.shield = math.max(self.shield - amount, 0)
     self:updateShieldText()
