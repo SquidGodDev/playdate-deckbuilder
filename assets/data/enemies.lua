@@ -1,6 +1,6 @@
 ENEMIES = {
-    blokus = {
-        imagePath = "assets/images/enemies/blokus",
+    chunkus = {
+        imagePath = "assets/images/enemies/chunkus",
         health = 4,
         damage = {1, 3},
         heal = {2, 4},

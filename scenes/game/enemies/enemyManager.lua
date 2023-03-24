@@ -20,9 +20,9 @@ end
 function EnemyManager:init(game)
     self.game = game
     self.enemies = {
-        BasicEnemy(game, ENEMIES.blokus),
-        BasicEnemy(game, ENEMIES.blokus),
-        BasicEnemy(game, ENEMIES.blokus)
+        BasicEnemy(game, ENEMIES.chunkus),
+        BasicEnemy(game, ENEMIES.chunkus),
+        BasicEnemy(game, ENEMIES.chunkus)
     }
     self.enemyBaseY = 90
 
