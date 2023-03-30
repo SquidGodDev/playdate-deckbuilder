@@ -18,9 +18,9 @@ function Card:init(data)
     self.baseImagetable = self:createCardImagetable(data)
     self:createAnimationLoop(data.stats.cost)
 
-    self.drawLoopCounter = 0
     self.drawLoopDuration = 6
-    self.drawLoopIndex = 1
+    self.drawLoopCounter = math.random(1, self.drawLoopDuration)
+    self.drawLoopIndex = math.random(1, #self.baseImagetable)
 end
 
 function Card:getStats()

@@ -3,6 +3,6 @@ author=A Lovely Developer
 description=This is a Noble Engine game.
 bundleID=com.yourdomain.GameName
 version=0.0.1
-buildNumber=27
+buildNumber=32
 imagePath=assets/launcher/
 launchSoundPath=assets/launcher/sound.wav

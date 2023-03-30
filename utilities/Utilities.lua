@@ -28,9 +28,9 @@ function Utilities.animateSprite(sprite, imagetable)
     sprite:setImage(imagetable[1])
     local loopDuration = 5
     local animateTimer = playdate.frameTimer.new(loopDuration)
-    local repeatFrame = math.random(0, loopDuration)
     animateTimer.repeats = true
-    local imagetableIndex = 1
+    local repeatFrame = math.random(0, loopDuration)
+    local imagetableIndex = math.random(1, #imagetable)
     animateTimer.updateCallback = function(timer)
         if timer.frame == repeatFrame then
             imagetableIndex = (imagetableIndex % #imagetable) + 1
