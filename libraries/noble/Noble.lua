@@ -121,6 +121,8 @@ end
 
 -- Transition stuff
 --
+local drawImagetable = Graphics.imagetable.new("assets/images/ui/transitionAnimationOutlined")
+
 local transitionSequence = nil
 local previousSceneScreenCapture = nil
 
@@ -208,6 +210,14 @@ function Noble.transition(NewScene, __duration, __transitionType, __holdDuration
 			:callback(onMidpoint)
 			:sleep(holdDuration)
 			:to(2, (duration-holdDuration)/2, Ease.linear)
+			:callback(onComplete)
+	elseif (currentTransitionType == Noble.TransitionType.DRAW) then
+		transitionSequence = Sequence.new()
+			:from(1)
+			:to(#drawImagetable, (duration-holdDuration)/2, Ease.linear)
+			:callback(onMidpoint)
+			:sleep(holdDuration)
+			:to(#drawImagetable*2+1, (duration-holdDuration)/2, Ease.linear)
 			:callback(onComplete)
 	else
 		previousSceneScreenCapture = Utilities.screenshot()
@@ -312,6 +322,15 @@ local function transitionUpdate()
 	elseif (currentTransitionType == Noble.TransitionType.SLIDE_OFF_DOWN) then
 		if (progress < 1) then
 			previousSceneScreenCapture:draw(0, Ease.inQuart(progress, 0, 1, 1) * 240, 0)
+		end
+	elseif (currentTransitionType == Noble.TransitionType.DRAW) then
+		-- Graphics.setImageDrawMode(Graphics.kDrawModeInverted)
+		if (progress < #drawImagetable + 1) then
+			local index = math.floor(progress)
+			drawImagetable[index]:draw(0, 0)
+		else
+			local index = math.ceil(#drawImagetable - (progress - #drawImagetable)) + 1
+			drawImagetable[index]:draw(0, 0)
 		end
 	end
 

@@ -34,3 +34,5 @@ Noble.TransitionType.SLIDE_OFF_RIGHT = Noble.TransitionType.SLIDE_OFF .. ": righ
 Noble.TransitionType.SLIDE_OFF_UP = Noble.TransitionType.SLIDE_OFF .. ": up"
 --- The existing scene slides off the bottom of the screen, revealing the next scene.
 Noble.TransitionType.SLIDE_OFF_DOWN = Noble.TransitionType.SLIDE_OFF .. ": down"
+
+Noble.TransitionType.DRAW = "Draw"

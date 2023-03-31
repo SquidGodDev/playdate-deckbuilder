@@ -14,5 +14,5 @@ function LevelScene:enter()
 end
 
 function LevelScene:loadLevel()
-    Noble.transition(GameScene, 1, Noble.TransitionType.CROSS_DISSOLVE, nil, self.playerMaxHealth, self.playerHealth, self.deck)
+    Noble.transition(GameScene, 1, Noble.TransitionType.DRAW, nil, self.playerMaxHealth, self.playerHealth, self.deck)
 end
