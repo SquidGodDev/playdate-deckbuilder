@@ -1,7 +1,7 @@
-name=A Noble Engine Game
-author=A Lovely Developer
-description=This is a Noble Engine game.
-bundleID=com.yourdomain.GameName
+name=Roguelike Deckbuilder
+author=SquidGod
+description=This is an in-progress roguelike deckbuilder
+bundleID=com.squidgod.roguelikeDeckbuilder
 version=0.0.1
 buildNumber=32
 imagePath=assets/launcher/
