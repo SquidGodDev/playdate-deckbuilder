@@ -69,6 +69,10 @@ function EnemyManager:damageEnemy(index, amount)
     if enemyDied then
         table.remove(self.enemies, index)
     end
+
+    if #self.enemies == 0 then
+        self.game:enemiesDefeated()
+    end
 end
 
 function EnemyManager:damageAllEnemies(amount)

@@ -9,7 +9,6 @@ function Player:init(game, maxHealth, health, baseMana)
     self.mana = self.baseMana
 end
 
-
 -- UI Methods
 function Player:createUI()
     local UIBaseX, UIBaseY = 18, 18
@@ -80,6 +79,10 @@ end
 function Player:heal(amount)
     self.health = math.min(self.health + amount, self.maxHealth)
     self:updateHealthText()
+end
+
+function Player:getHealth()
+    return self.health
 end
 
 function Player:getMana()

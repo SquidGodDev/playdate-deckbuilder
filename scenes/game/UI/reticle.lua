@@ -51,7 +51,10 @@ end
 
 function Reticle:update()
     local enemyPlacement = self.enemyManager:getPlacement()
-    local targetX = enemyPlacement[self.index] or enemyPlacement[self.enemyManager:getEnemyCount()]
+    local targetX = self.x
+    if enemyPlacement then
+        targetX = enemyPlacement[self.index] or enemyPlacement[self.enemyManager:getEnemyCount()]
+    end
     local reticleX = lerp(self.x, targetX, self.lerpSpeed)
     local reticleY = lerp(self.y, self.targetY, self.lerpSpeed)
     self:moveTo(reticleX, reticleY)

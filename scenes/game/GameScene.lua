@@ -10,28 +10,32 @@ GAME_STATE = {
     selectingCard = 1,
     expandedCard = 2,
     singleTargetSelection = 3,
-    enemyAction = 4
+    enemyAction = 4,
+    enemiesDefeated = 5
 }
 
 class('GameScene').extends(NobleScene)
 GameScene.backgroundColor = Graphics.kColorBlack
 
-function GameScene:init(playerMaxHealth, playerHealth, deck)
+function GameScene:init()
     GameScene.super.init(self)
     Graphics.setBackgroundColor(Graphics.kColorBlack)
     -- ===== Temp values =====
-    local cardList = {}
-    for _, card in pairs(CARDS) do
-        table.insert(cardList, card)
-    end
-    deck = {}
-    for i=1,20 do
-        local card = Card(cardList[math.random(#cardList)])
-        deck[i] = card
-    end
-    playerMaxHealth = 20
-    playerHealth = 20
+    -- local cardList = {}
+    -- for _, card in pairs(CARDS) do
+    --     table.insert(cardList, card)
+    -- end
+    -- deck = {}
+    -- for i=1,20 do
+    --     local card = Card(cardList[math.random(#cardList)])
+    --     deck[i] = card
+    -- end
+    -- playerMaxHealth = 20
+    -- playerHealth = 20
     -- =======================
+    local playerMaxHealth = Noble.GameData.get("playerMaxHealth")
+    local playerHealth = Noble.GameData.get("playerHealth")
+    local deck = Noble.GameData.get("deck")
 
     -- Init
     self.deck = Deck(deck)
@@ -71,6 +75,14 @@ function GameScene:switchToEnemyTurn()
     self.state = GAME_STATE.enemyAction
     self.hand:discardHand()
     self.enemyManager:enemyTurn()
+end
+
+function GameScene:enemiesDefeated()
+    self.state = GAME_STATE.enemiesDefeated
+    Noble.GameData.set("playerHealth", self.player:getHealth())
+    Timer.performAfterDelay(1000, function()
+        Noble.transition(LevelScene, 3, Noble.TransitionType.DRAW)
+    end)
 end
 
 function GameScene:update()

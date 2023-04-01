@@ -12,6 +12,13 @@ import 'scenes/game/cards/properties/cardDraw'
 import 'assets/data/cards'
 import 'assets/data/enemies'
 
+-- Title
+import "scenes/title/TitleScene"
+import "scenes/title/ClassSelectScene"
+
+-- Level
+import "scenes/levels/LevelScene"
+
 -- Game
 import 'scenes/game/GameScene'
 import 'scenes/game/cards/hand'
@@ -25,9 +32,22 @@ import 'scenes/game/enemies/enemyManager'
 import 'scenes/game/enemies/enemy'
 import 'scenes/game/enemies/basicEnemy'
 
-local mainFont = Graphics.font.new("assets/fonts/WhackyJoeMonospaced-12")
-Graphics.setFont(mainFont)
-
 -- Noble.showFPS = true
 
-Noble.new(GameScene, 2.5, Noble.TransitionType.DRAW)
+local mainFont = Graphics.font.new("assets/fonts/WhackyJoeMonospaced-12")
+Noble.Text.setFont(mainFont)
+
+Noble.GameData.setup(
+    {
+        deck = {},
+        playerMaxHealth = 40,
+        playerHealth = 40,
+        level = 1,
+        world = 1,
+    },
+    1,
+    false,
+    true
+)
+
+Noble.new(TitleScene, 2.5, Noble.TransitionType.DRAW)

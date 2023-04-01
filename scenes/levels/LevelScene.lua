@@ -1,12 +1,14 @@
 class('LevelScene').extends(NobleScene)
+LevelScene.backgroundColor = Graphics.kColorBlack
 
 function LevelScene:init()
     LevelScene.super.init(self)
-    self.deck = {}
-    self.playerMaxHealth = 40
-    self.playerHealth = self.playerMaxHealth
-    self.level = 1
-    self.world = 1
+
+    LevelScene.inputHandler = {
+		AButtonDown = function()
+			Noble.transition(GameScene, 3, Noble.TransitionType.DRAW)
+		end
+    }
 end
 
 function LevelScene:enter()
