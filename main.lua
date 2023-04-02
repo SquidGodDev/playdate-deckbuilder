@@ -50,4 +50,9 @@ Noble.GameData.setup(
     true
 )
 
-Noble.new(TitleScene, 2.5, Noble.TransitionType.DRAW)
+Noble.new(TitleScene, 2, Noble.TransitionType.DRAW, {
+    defaultTransitionDuration = 2,
+    defaultTransitionType = Noble.TransitionType.DRAW,
+    enableDebugBonkChecking = false,
+    alwaysRedraw = false
+})

@@ -52,8 +52,14 @@ function Noble.Settings.setup(__keyValuePairs, __saveToDisk, __modifyExistingOnK
 		settingsHaveBeenSetup = true
 	end
 
-	local saveToDisk = __saveToDisk or true
-	local modifyExistingOnKeyChange = __modifyExistingOnKeyChange or true
+	-- Prevent using the setup() method if there are no settings to register
+	if (__keyValuePairs == nil or table.getSize(__keyValuePairs) == 0) then
+		error("BONK: Do not use Noble.Settings.setup if you do not have any settings to register. New settings cannot be added via Noble.Settings.set and must be all declared upfront in the Noble.Settings.setup method.")
+		return
+	end
+
+	local saveToDisk = Utilities.handleOptionalBoolean(__saveToDisk, true)
+	local modifyExistingOnKeyChange = Utilities.handleOptionalBoolean(__modifyExistingOnKeyChange, true)
 	settingsDefault = __keyValuePairs
 
 	-- Get existing settings from disk, if any.
@@ -102,7 +108,7 @@ end
 function Noble.Settings.set(__settingName, __value, __saveToDisk)
 	if (settingExists(__settingName)) then
 		settings[__settingName] = __value
-		local saveToDisk = __saveToDisk or true
+		local saveToDisk = Utilities.handleOptionalBoolean(__saveToDisk, true)
 		if (saveToDisk) then Noble.Settings.save() end
 	end
 end
@@ -116,7 +122,7 @@ end
 function Noble.Settings.reset(__settingName, __saveToDisk)
 	if (settingExists(__settingName)) then
 		settings[__settingName] = settingsDefault[__settingName]
-		local saveToDisk = __saveToDisk or true
+		local saveToDisk = Utilities.handleOptionalBoolean(__saveToDisk, true)
 		if (saveToDisk) then Noble.Settings.save() end
 	end
 end
@@ -138,7 +144,7 @@ end
 -- @see save
 function Noble.Settings.resetAll(__saveToDisk)
 	settings = table.deepcopy(settingsDefault)
-	local saveToDisk = __saveToDisk or true
+	local saveToDisk = Utilities.handleOptionalBoolean(__saveToDisk, true)
 	if (saveToDisk) then Noble.Settings.save() end
 end
 

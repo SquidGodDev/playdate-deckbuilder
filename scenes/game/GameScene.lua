@@ -81,7 +81,7 @@ function GameScene:enemiesDefeated()
     self.state = GAME_STATE.enemiesDefeated
     Noble.GameData.set("playerHealth", self.player:getHealth())
     Timer.performAfterDelay(1000, function()
-        Noble.transition(LevelScene, 3, Noble.TransitionType.DRAW)
+        Noble.transition(LevelScene)
     end)
 end
 

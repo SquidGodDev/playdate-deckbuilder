@@ -3,7 +3,7 @@ TitleScene.backgroundColor = Graphics.kColorBlack
 
 function TitleScene:init()
     TitleScene.super.init(self)
-    self.menu = Noble.Menu.new(false, Noble.Text.ALIGN_CENTER, false, Graphics.kColorWhite, 4, 6, 0, nil)
+    self.menu = Noble.Menu.new(true, Noble.Text.ALIGN_CENTER, false, Graphics.kColorWhite, 4, 6, 0, nil)
     self.menu:addItem("Play", function()
 		-- ===== Temp values =====
 		local cardList = {}
@@ -21,7 +21,7 @@ function TitleScene:init()
 		Noble.GameData.set("playerHealth", playerMaxHealth)
 		Noble.GameData.set("level", 1)
 		Noble.GameData.set("world", 1)
-		Noble.transition(LevelScene, 3, Noble.TransitionType.DRAW)
+		Noble.transition(LevelScene)
     end)
     self.menu:addItem("Lexicon", function()
         
