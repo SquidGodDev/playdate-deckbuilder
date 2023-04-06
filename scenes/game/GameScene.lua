@@ -65,6 +65,7 @@ end
 
 function GameScene:enemiesDefeated()
     self.state = GAME_STATE.enemiesDefeated
+    self.hand:disable()
     Noble.GameData.set("playerHealth", self.player:getHealth())
     Timer.performAfterDelay(1000, function()
         Noble.transition(LevelScene)
@@ -127,4 +128,5 @@ end
 
 function GameScene:finish()
 	GameScene.super.finish(self)
+    self.deck:resetDeck()
 end

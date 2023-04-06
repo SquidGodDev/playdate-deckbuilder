@@ -28,3 +28,11 @@ function Deck:reshuffle()
     end
     self.discardPile = {}
 end
+
+function Deck:resetDeck()
+    self:reshuffle()
+    for i=1, #self.deck do
+        local card = self.deck[i]
+        card:resetModifiers()
+    end
+end

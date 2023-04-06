@@ -35,6 +35,7 @@ function Hand:init(deck, game)
     self.game = game
     self.player = game.player
 
+    self.active = true
     self.startingDrawCount = 5
 
     self.cards = {}
@@ -56,12 +57,16 @@ function Hand:update()
         local cardTargetX = cardPlacement[i]
         local cardX = lerp(card.x, cardTargetX, self.cardAnimationLerpSpeed)
         local cardTargetY = self.cardBaseY
-        if i == self.cardSelectIndex then
+        if i == self.cardSelectIndex and self.active then
             cardTargetY = self.cardSelectY
         end
         local cardY = lerp(card.y, cardTargetY, self.cardAnimationLerpSpeed)
         card:moveTo(cardX, cardY)
     end
+end
+
+function Hand:disable()
+    self.active = false
 end
 
 function Hand:selectCardLeft()

@@ -19,7 +19,7 @@ function LevelScene:start()
     LevelScene.super.start(self)
 
     if #self.level == self.maxLevel - 1 then
-        self.cardSelection = CardSelection(200, 150, {SELECTION_CHOICES.campfire, SELECTION_CHOICES.market, SELECTION_CHOICES.chest})
+        self.cardSelection = CardSelection(200, 120, {SELECTION_CHOICES.campfire, SELECTION_CHOICES.market, SELECTION_CHOICES.chest}, true)
         self.cardSelection:animateIn()
 
         Noble.Input.setHandler({
