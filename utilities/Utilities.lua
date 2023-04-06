@@ -7,6 +7,9 @@ function Utilities.getZero()
 end
 
 function Utilities.createAnimatedSprite(imagetable)
+    if type(imagetable) == "string" then
+        imagetable = Graphics.imagetable.new(imagetable)
+    end
     local sprite = NobleSprite()
     local loopDuration = 6
     sprite.drawLoopCounter = math.random(0, loopDuration - 1)

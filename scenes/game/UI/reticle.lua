@@ -2,9 +2,10 @@ local lerp <const> = function(a, b, t)
     return a * (1-t) + b * t
 end
 
-class('Reticle').extends(Graphics.sprite)
+class('Reticle').extends(NobleSprite)
 
 function Reticle:init(game, enemyManager)
+    Reticle.super.init(self)
     self.game = game
     self.enemyManager = enemyManager
     self.inY = 90
@@ -16,6 +17,7 @@ function Reticle:init(game, enemyManager)
 
     local reticleImagetable = Graphics.imagetable.new("assets/images/ui/reticle")
     Utilities.animateSprite(self, reticleImagetable)
+    self:add()
 end
 
 function Reticle:selectLeft()

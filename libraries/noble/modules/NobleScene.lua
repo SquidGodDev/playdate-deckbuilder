@@ -195,7 +195,7 @@ end
 --
 function NobleScene:exit()
 	for _, sprite in ipairs(self.sprites) do
-		sprite:setUpdatesEnabled(false)
+		-- sprite:setUpdatesEnabled(false)
 		sprite:setCollisionsEnabled(false)
 	end
 end
@@ -217,6 +217,13 @@ function NobleScene:finish()
 			sprite:remove()
 		end
 	end
+	local allTimers = Timer.allTimers()
+    if allTimers then
+        for _, timer in ipairs(allTimers) do
+            timer:remove()
+        end
+    end
+    Display.setOffset(0, 0)
 end
 
 --- `pause()` / `resume()`

@@ -1,4 +1,4 @@
-class('EnemyManager').extends(Graphics.sprite)
+class('EnemyManager').extends(NobleSprite)
 
 local maxEnemies <const> = 4
 local enemyPlacements <const> = {}
@@ -18,6 +18,7 @@ for i=1, maxEnemies do
 end
 
 function EnemyManager:init(game)
+    EnemyManager.super.init(self)
     self.game = game
     self.enemies = {
         BasicEnemy(game, ENEMIES.chunkus),
@@ -29,7 +30,7 @@ function EnemyManager:init(game)
     self.enemySpawnY = self.enemyBaseY
 
     self:addEnemies()
-    Noble.currentScene():addSprite(self)
+    self:add()
 end
 
 function EnemyManager:enemyTurn()

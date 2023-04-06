@@ -11,6 +11,8 @@ import 'scenes/game/cards/properties/cardDraw'
 -- Data
 import 'assets/data/cards'
 import 'assets/data/enemies'
+import 'assets/data/globals'
+import 'assets/data/levelData'
 
 -- Title
 import "scenes/title/TitleScene"
@@ -18,6 +20,10 @@ import "scenes/title/ClassSelectScene"
 
 -- Level
 import "scenes/levels/LevelScene"
+import "scenes/levels/cardSelection"
+import "scenes/levels/campfire/CampfireScene"
+import "scenes/levels/chest/ChestScene"
+import "scenes/levels/market/MarketScene"
 
 -- Game
 import 'scenes/game/GameScene'
@@ -37,12 +43,14 @@ import 'scenes/game/enemies/basicEnemy'
 local mainFont = Graphics.font.new("assets/fonts/WhackyJoeMonospaced-12")
 Noble.Text.setFont(mainFont)
 
+Graphics.setBackgroundColor(Graphics.kColorBlack)
+
 Noble.GameData.setup(
     {
         deck = {},
         playerMaxHealth = 40,
         playerHealth = 40,
-        level = 1,
+        level = {},
         world = 1,
     },
     1,

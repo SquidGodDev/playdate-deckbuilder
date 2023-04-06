@@ -20,19 +20,6 @@ GameScene.backgroundColor = Graphics.kColorBlack
 function GameScene:init()
     GameScene.super.init(self)
     Graphics.setBackgroundColor(Graphics.kColorBlack)
-    -- ===== Temp values =====
-    -- local cardList = {}
-    -- for _, card in pairs(CARDS) do
-    --     table.insert(cardList, card)
-    -- end
-    -- deck = {}
-    -- for i=1,20 do
-    --     local card = Card(cardList[math.random(#cardList)])
-    --     deck[i] = card
-    -- end
-    -- playerMaxHealth = 20
-    -- playerHealth = 20
-    -- =======================
     local playerMaxHealth = Noble.GameData.get("playerMaxHealth")
     local playerHealth = Noble.GameData.get("playerHealth")
     local deck = Noble.GameData.get("deck")
@@ -54,7 +41,6 @@ function GameScene:enter()
     self.player:createUI()
     self.enemyManager = EnemyManager(self)
     self.reticle = Reticle(self, self.enemyManager)
-    self:addSprite(self.reticle)
     self:switchToPlayerTurn()
 end
 
@@ -141,11 +127,4 @@ end
 
 function GameScene:finish()
 	GameScene.super.finish(self)
-    local allTimers = Timer.allTimers()
-    if allTimers then
-        for _, timer in ipairs(allTimers) do
-            timer:remove()
-        end
-    end
-    Display.setOffset(0, 0)
 end
