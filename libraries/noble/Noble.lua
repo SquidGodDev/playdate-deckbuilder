@@ -185,6 +185,8 @@ end
 -- Transition stuff
 --
 local drawImagetable = Graphics.imagetable.new("assets/images/ui/transitionAnimationOutlined")
+local quickTransitionImagetable = Graphics.imagetable.new("assets/images/ui/quickTransition")
+local quickTransitionMidpoint = 19
 
 local transitionSequence = nil
 local previousSceneScreenCapture = nil
@@ -304,6 +306,14 @@ local function executeTransition(__transition)
 			:sleep(holdDuration)
 			:to(#drawImagetable*2+1, (duration-holdDuration)/2, Ease.linear)
 			:callback(onComplete)
+	elseif (currentTransitionType == Noble.TransitionType.QUICK_DRAW) then
+		transitionSequence = Sequence.new()
+			:from(1)
+			:to(quickTransitionMidpoint, (duration-holdDuration)/2, Ease.linear)
+			:callback(onMidpoint)
+			:sleep(holdDuration)
+			:to(#quickTransitionImagetable, (duration-holdDuration)/2, Ease.linear)
+			:callback(onComplete)
 	else
 		previousSceneScreenCapture = Utilities.screenshot()
 		onMidpoint()
@@ -417,6 +427,10 @@ local function transitionUpdate()
 			local index = math.ceil(#drawImagetable - (progress - #drawImagetable)) + 1
 			drawImagetable[index]:draw(0, 0)
 		end
+	elseif (currentTransitionType == Noble.TransitionType.QUICK_DRAW) then
+		-- Graphics.setImageDrawMode(Graphics.kDrawModeInverted)
+		local index = math.floor(progress)
+		quickTransitionImagetable[index]:draw(0, 0)
 	end
 
 	Graphics.unlockFocus()

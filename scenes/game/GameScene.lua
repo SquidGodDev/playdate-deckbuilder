@@ -19,7 +19,7 @@ GameScene.backgroundColor = Graphics.kColorBlack
 
 function GameScene:init()
     GameScene.super.init(self)
-    Graphics.setBackgroundColor(Graphics.kColorBlack)
+
     local playerMaxHealth = Noble.GameData.get("playerMaxHealth")
     local playerHealth = Noble.GameData.get("playerHealth")
     local deck = Noble.GameData.get("deck")
@@ -66,7 +66,7 @@ end
 function GameScene:enemiesDefeated()
     self.state = GAME_STATE.enemiesDefeated
     self.hand:disable()
-    Noble.GameData.set("playerHealth", self.player:getHealth())
+    Noble.GameData.set("playerHealth", self.player:getHealth(), nil, false)
     Timer.performAfterDelay(1000, function()
         Noble.transition(LevelScene)
     end)

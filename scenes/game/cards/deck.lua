@@ -1,7 +1,10 @@
 class('Deck').extends()
 
 function Deck:init(deck)
-    self.deck = deck
+    self.deck = {}
+    for i=1, #deck do
+        self.deck[i] = Card(deck[i])
+    end
     self.discardPile = {}
 end
 
@@ -30,9 +33,9 @@ function Deck:reshuffle()
 end
 
 function Deck:resetDeck()
-    self:reshuffle()
-    for i=1, #self.deck do
-        local card = self.deck[i]
-        card:resetModifiers()
-    end
+    -- self:reshuffle()
+    -- for i=1, #self.deck do
+    --     local card = self.deck[i]
+    --     card:resetModifiers()
+    -- end
 end

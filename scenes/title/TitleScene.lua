@@ -12,15 +12,15 @@ function TitleScene:init()
 		end
 		deck = {}
 		for i=1,20 do
-			local card = Card(cardList[math.random(#cardList)])
+			local card = cardList[math.random(#cardList)]
 			deck[i] = card
 		end
 		local playerMaxHealth = 40
-		Noble.GameData.set("deck", deck)
-		Noble.GameData.set("playerMaxHealth", playerMaxHealth)
-		Noble.GameData.set("playerHealth", playerMaxHealth)
-		Noble.GameData.set("level", {})
-		Noble.GameData.set("world", 1)
+		Noble.GameData.set("deck", deck, nil, false)
+		Noble.GameData.set("playerMaxHealth", playerMaxHealth, nil, false)
+		Noble.GameData.set("playerHealth", playerMaxHealth, nil, false)
+		Noble.GameData.set("level", {}, nil, false)
+		Noble.GameData.set("world", 1, nil, false)
 		Noble.transition(LevelScene)
     end)
     self.menu:addItem("Lexicon", function()

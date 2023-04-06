@@ -36,3 +36,4 @@ Noble.TransitionType.SLIDE_OFF_UP = Noble.TransitionType.SLIDE_OFF .. ": up"
 Noble.TransitionType.SLIDE_OFF_DOWN = Noble.TransitionType.SLIDE_OFF .. ": down"
 
 Noble.TransitionType.DRAW = "Draw"
+Noble.TransitionType.QUICK_DRAW = "QuickDraw"

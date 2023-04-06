@@ -1,4 +1,5 @@
 local cardBase <const> = Graphics.imagetable.new("assets/images/cards/cardBase")
+local cardImagetables <const> = CARD_IMAGETABLES
 
 class('Card').extends(NobleSprite)
 
@@ -136,7 +137,7 @@ function Card:getCardImagetableWithCost(cost)
 end
 
 function Card:createCardImagetable(data)
-    local spellImagetable = Graphics.imagetable.new(data.imagePath)
+    local spellImagetable = cardImagetables[data.imagePath]
     local imagetableCount = #spellImagetable
     local cardImagetable = Graphics.imagetable.new(imagetableCount)
     for i=1,#spellImagetable do

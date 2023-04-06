@@ -6,6 +6,7 @@ function LevelScene:init()
     self.maxLevel = 5
     self.level = Noble.GameData.get("level")
     self.world = Noble.GameData.get("world")
+    Noble.Input.clearHandler()
 end
 
 function LevelScene:enter()
@@ -59,7 +60,7 @@ function LevelScene:selected(choice)
         Utilities.particle(curIcon.x, curIcon.y, "assets/images/ui/level/levelEnterParticles", 15, false)
         curIcon:remove()
         table.insert(self.level, choice)
-        Noble.GameData.set("level", self.level)
+        Noble.GameData.set("level", self.level, nil, false)
 
         local transitionDelay = 1000
         Timer.performAfterDelay(transitionDelay, function()
@@ -78,8 +79,8 @@ end
 
 function LevelScene:endLevel()
     self:animateCursor(self.maxLevel + 1, function()
-        Noble.GameData.set("level", {})
-        Noble.GameData.set("world", self.world + 1)
+        Noble.GameData.set("level", {}, nil, false)
+        Noble.GameData.set("world", self.world + 1, nil, false)
         local transitionDelay = 1000
         Timer.performAfterDelay(transitionDelay, function()
             Noble.transition(LevelScene)

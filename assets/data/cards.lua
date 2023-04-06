@@ -46,3 +46,9 @@ CARDS = {
         }
     }
 }
+
+CARD_IMAGETABLES = {}
+for _, spellData in pairs(CARDS) do
+    local imagePath = spellData.imagePath
+    CARD_IMAGETABLES[imagePath] = Graphics.imagetable.new(imagePath)
+end
