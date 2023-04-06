@@ -186,7 +186,7 @@ end
 --
 local drawImagetable = Graphics.imagetable.new("assets/images/ui/transitionAnimationOutlined")
 local quickTransitionImagetable = Graphics.imagetable.new("assets/images/ui/quickTransition")
-local quickTransitionMidpoint = 19
+local quickTransitionMidpoint = 20
 
 local transitionSequence = nil
 local previousSceneScreenCapture = nil

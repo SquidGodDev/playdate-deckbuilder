@@ -19,6 +19,10 @@ GameScene.backgroundColor = Graphics.kColorBlack
 
 function GameScene:init()
     GameScene.super.init(self)
+end
+
+function GameScene:enter()
+	GameScene.super.enter(self)
 
     local playerMaxHealth = Noble.GameData.get("playerMaxHealth")
     local playerHealth = Noble.GameData.get("playerHealth")
@@ -31,12 +35,7 @@ function GameScene:init()
     self.state = GAME_STATE.selectingCard
 
     self.screenShakeTimer = nil
-end
 
-function GameScene:enter()
-	GameScene.super.enter(self)
-
-    -- Init
     self.hand = Hand(self.deck, self)
     self.player:createUI()
     self.enemyManager = EnemyManager(self)

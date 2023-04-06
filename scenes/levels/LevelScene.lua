@@ -69,7 +69,7 @@ function LevelScene:selected(choice)
             elseif choice == SELECTION_CHOICES.chest then
                 Noble.transition(ChestScene)
             elseif choice == SELECTION_CHOICES.enemy then
-                Noble.transition(GameScene)
+                Noble.transition(GameScene, nil, nil, 0.4)
             elseif choice == SELECTION_CHOICES.market then
                 Noble.transition(MarketScene)
             end
