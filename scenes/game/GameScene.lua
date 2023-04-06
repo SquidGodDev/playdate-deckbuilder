@@ -54,6 +54,7 @@ function GameScene:switchToPlayerTurn()
     self.enemyManager:updateIntents()
     self.hand:drawHand()
     self.player:resetMana()
+    self.player:resetShield()
 end
 
 function GameScene:switchToEnemyTurn()

@@ -111,6 +111,20 @@ end
 function Player:addShield(amount)
     self.shield += amount
     self:updateShieldText()
+    self:shieldAnimation()
+end
+
+function Player:shieldAnimation()
+    local shieldSprite = Utilities.particle(60, 55, "assets/images/ui/largeShieldEnter", 15, false, true)
+    Timer.performAfterDelay(500, function()
+        local animateTimer = Timer.new(500, shieldSprite.y, -40, Ease.inOutCubic)
+        animateTimer.updateCallback = function(timer)
+            shieldSprite:moveTo(shieldSprite.x, timer.value)
+        end
+        animateTimer.timerEndedCallback = function()
+            shieldSprite:remove()
+        end
+    end)
 end
 
 function Player:resetShield()

@@ -42,16 +42,22 @@ function Utilities.animateSprite(sprite, imagetable)
     end
 end
 
-function Utilities.particle(x, y, imagetablePath, frameTime, repeats)
-    local imagetable = Graphics.imagetable.new(imagetablePath)
+local particleCache = {}
+
+function Utilities.particle(x, y, imagetablePath, frameTime, repeats, noRemove)
+    local imagetable = particleCache[imagetablePath]
+    if not imagetable then
+        imagetable = Graphics.imagetable.new(imagetablePath)
+        particleCache[imagetablePath] = imagetable
+    end
     assert(imagetable)
     local particle = NobleSprite()
     particle:setImage(imagetable[1])
     particle:add(x, y)
-    local animationLoop = Graphics.animation.loop.new(frameTime, imagetable, repeats)
+    particle.animationLoop = Graphics.animation.loop.new(frameTime, imagetable, repeats)
     particle.update = function(self)
-        self:setImage(animationLoop:image())
-        if not animationLoop:isValid() then
+        self:setImage(self.animationLoop:image())
+        if not self.animationLoop:isValid() and not noRemove then
             self:remove()
         end
     end

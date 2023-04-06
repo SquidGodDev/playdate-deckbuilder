@@ -1,4 +1,3 @@
----Requires: drawCount
 class('CardDraw').extends(Property)
 
 function CardDraw:init(stats)

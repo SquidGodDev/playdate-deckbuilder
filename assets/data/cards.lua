@@ -15,7 +15,7 @@ CARDS = {
         imagePath = "assets/images/cards/stoneWall",
         sfx = "",
         properties = {
-
+            Shield
         },
         stats = {
             cost = 1,

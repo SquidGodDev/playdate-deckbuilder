@@ -4,9 +4,11 @@ import 'utilities/Utilities'
 
 -- Properties
 import 'scenes/game/cards/properties/property'
-import 'scenes/game/cards/properties/singleTargetDamage'
 import 'scenes/game/cards/properties/aoeDamage'
 import 'scenes/game/cards/properties/cardDraw'
+import 'scenes/game/cards/properties/heal'
+import 'scenes/game/cards/properties/shield'
+import 'scenes/game/cards/properties/singleTargetDamage'
 
 -- Data
 import 'assets/data/cards'
