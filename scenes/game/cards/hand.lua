@@ -83,11 +83,14 @@ function Hand:selectCardRight()
     self.cardSelectIndex = math.ringInt(self.cardSelectIndex + 1, 1, #self.cards)
 end
 
-function Hand:drawCard()
+function Hand:drawCard(count)
     if #self.cards >= MAX_HAND_SIZE then
         return
     end
-    self:addCard(self.deck:draw())
+    count = count or 1
+    for _=1,count do
+        self:addCard(self.deck:draw())
+    end
 end
 
 function Hand:isEmpty()
@@ -115,7 +118,6 @@ function Hand:playCard(enemyIndex)
         return
     end
 
-    playedCard:onPlay(self.game, enemyIndex)
     self.player:useMana(cardCost)
     table.remove(self.cards, self.cardSelectIndex)
     if self.cardSelectIndex > #self.cards then
@@ -129,6 +131,8 @@ function Hand:playCard(enemyIndex)
     playAnimateTimer.timerEndedCallback = function()
         playedCard:remove()
     end
+
+    playedCard:onPlay(self.game, enemyIndex)
 end
 
 function Hand:discardCard(card)
@@ -160,7 +164,5 @@ function Hand:discardHand()
 end
 
 function Hand:drawHand()
-    for _=1,self.startingDrawCount do
-        self:drawCard()
-    end
+    self:drawCard(self.startingDrawCount)
 end

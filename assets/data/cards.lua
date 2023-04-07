@@ -7,8 +7,7 @@ CARDS = {
         },
         stats = {
             cost = 1,
-            damage = 3,
-            singleTarget = true
+            damage = 3
         }
     },
     stoneWall = {
@@ -30,8 +29,7 @@ CARDS = {
         },
         stats = {
             cost = 0,
-            damage = 1,
-            singleTarget = true
+            damage = 1
         }
     },
     lightningStrike = {
@@ -43,6 +41,17 @@ CARDS = {
         stats = {
             cost = 2,
             damage = 2
+        }
+    },
+    investigate = {
+        imagePath = "assets/images/cards/investigate",
+        sfx = "",
+        properties = {
+            CardDraw
+        },
+        stats = {
+            cost = 1,
+            drawCount = 2
         }
     }
 }

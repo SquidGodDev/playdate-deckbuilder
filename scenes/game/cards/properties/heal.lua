@@ -1,3 +1,6 @@
+
+--- Requires: heal
+Heal = {}
 class('Heal').extends()
 
 function Heal:init(stats)

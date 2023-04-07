@@ -1,3 +1,6 @@
+
+--- Requires: shield
+Shield = {}
 class('Shield').extends()
 
 function Shield:init(stats)

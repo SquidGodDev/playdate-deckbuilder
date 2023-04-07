@@ -1,3 +1,4 @@
+Property = {}
 class('Property').extends()
 
 function Property:init(stats)

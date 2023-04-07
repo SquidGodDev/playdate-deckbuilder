@@ -1,3 +1,6 @@
+
+--- Requires: damage
+AoeDamage = {}
 class('AoeDamage').extends(Property)
 
 function AoeDamage:init(stats)
