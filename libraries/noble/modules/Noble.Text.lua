@@ -50,6 +50,8 @@ function Noble.Text.setFont(__font, __variant)
 	Graphics.setFont(__font, variant)
 end
 
+local japaneseFont = Graphics.font.new("assets/fonts/JF-Dot-milkjf16B-12")
+local isJapanese = TEST_LOCALIZATION or (playdate.getSystemLanguage() == Graphics.font.kLanguageJapanese)
 --- Abstracts multiple `playdate.text` drawing functions into one.
 -- @string __string Display text or localization key.
 -- @number __x
@@ -62,7 +64,11 @@ function Noble.Text.draw(__string, __x, __y, __alignment, __localized, __font)
 	local localized = Utilities.handleOptionalBoolean(__localized, false)
 	local string = __string or ""
 
-	if (__font ~= nil) then Graphics.setFont(__font) end -- Temporary font
+	if (__font ~= nil) then
+		Graphics.setFont(__font)
+	elseif (isJapanese) then
+		Graphics.setFont(japaneseFont)
+	end
 
 	if (localized) then
 		Graphics.drawLocalizedTextAligned(string, __x, __y, alignment)
@@ -70,5 +76,7 @@ function Noble.Text.draw(__string, __x, __y, __alignment, __localized, __font)
 		Graphics.drawTextAligned(string, __x, __y, alignment)
 	end
 
-	if (__font ~= nil) then Graphics.setFont(currentFont) end	-- Reset
+	if (__font ~= nil or isJapanese) then
+		Graphics.setFont(currentFont)
+	end
 end

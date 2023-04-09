@@ -1,3 +1,5 @@
+TEST_LOCALIZATION = false
+
 -- Libraries
 import 'libraries/noble/Noble'
 import 'utilities/Utilities'
@@ -34,6 +36,7 @@ import 'scenes/game/cards/deck'
 import 'scenes/game/cards/card'
 import 'scenes/game/player/player'
 import 'scenes/game/UI/reticle'
+import 'scenes/game/UI/cardInspector'
 
 -- Enemies
 import 'scenes/game/enemies/enemyManager'

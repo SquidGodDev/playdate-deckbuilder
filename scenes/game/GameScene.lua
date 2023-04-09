@@ -78,12 +78,9 @@ function GameScene:update()
         if playdate.buttonJustPressed(playdate.kButtonB) then
             self:switchToEnemyTurn()
         elseif playdate.buttonJustPressed(playdate.kButtonA) then
-            if not self.hand:isEmpty() and self.hand:hasEnoughMana() then
-                if self.hand:cardIsSingleTarget() then
-                    self:switchToTargetSelection()
-                else
-                    self.hand:playCard()
-                end
+            if not self.hand:isEmpty() then
+                self.cardInspector = CardInspector(self.hand:getHand(), self.hand:getSelectedIndex())
+                self.state = GAME_STATE.expandedCard
             end
         elseif playdate.buttonJustPressed(playdate.kButtonLeft) then
             self.hand:selectCardLeft()
@@ -91,7 +88,27 @@ function GameScene:update()
             self.hand:selectCardRight()
         end
     elseif self.state == GAME_STATE.expandedCard then
-
+        if playdate.buttonJustPressed(playdate.kButtonA) then
+            if not self.hand:isEmpty() and self.hand:hasEnoughMana() then
+                self.state = GAME_STATE.selectingCard
+                if self.hand:cardIsSingleTarget() then
+                    self.cardInspector:animateOut()
+                    self:switchToTargetSelection()
+                else
+                    self.cardInspector:animateOut(true)
+                    self.cardInspector = nil
+                    self.hand:playCard()
+                end
+            end
+        elseif playdate.buttonJustPressed(playdate.kButtonB) then
+            self.cardInspector:animateOut()
+            self.cardInspector = nil
+            self.state = GAME_STATE.selectingCard
+        elseif playdate.buttonJustPressed(playdate.kButtonLeft) then
+            self.hand:selectCardLeft()
+        elseif playdate.buttonJustPressed(playdate.kButtonRight) then
+            self.hand:selectCardRight()
+        end
     elseif self.state == GAME_STATE.singleTargetSelection then
         if playdate.buttonJustPressed(playdate.kButtonLeft) then
             self.reticle:selectLeft()
@@ -100,7 +117,13 @@ function GameScene:update()
         elseif playdate.buttonJustPressed(playdate.kButtonA) then
             self.reticle:animateOut()
             self.hand:playCard(self.reticle:getIndex())
+            self.cardInspector:destroy()
+            self.cardInspector = nil
             self.state = GAME_STATE.selectingCard
+        elseif playdate.buttonJustPressed(playdate.kButtonB) then
+            self.reticle:animateOut()
+            self.cardInspector:animateIn()
+            self.state = GAME_STATE.expandedCard
         end
     elseif self.state == GAME_STATE.enemyAction then
 

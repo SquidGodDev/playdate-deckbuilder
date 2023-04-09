@@ -14,7 +14,7 @@ function Utilities.createAnimatedSprite(imagetable)
     local loopDuration = 6
     sprite.drawLoopCounter = math.random(0, loopDuration - 1)
     sprite.drawLoopDuration = loopDuration
-    sprite.drawLoopIndex = 1
+    sprite.drawLoopIndex = math.random(1, #imagetable)
     sprite.imagetable = imagetable
     sprite.update = function(self)
         self.drawLoopCounter += 1
@@ -28,6 +28,9 @@ function Utilities.createAnimatedSprite(imagetable)
 end
 
 function Utilities.animateSprite(sprite, imagetable)
+    if type(imagetable) == "string" then
+        imagetable = Graphics.imagetable.new(imagetable)
+    end
     sprite:setImage(imagetable[1])
     local loopDuration = 5
     local animateTimer = playdate.frameTimer.new(loopDuration)
@@ -62,4 +65,14 @@ function Utilities.particle(x, y, imagetablePath, frameTime, repeats, noRemove)
         end
     end
     return particle
+end
+
+
+local isJapanese = TEST_LOCALIZATION or (playdate.getSystemLanguage() == Graphics.font.kLanguageJapanese)
+function Utilities.getLocalizedString(key)
+    if isJapanese then
+        return Graphics.getLocalizedText(key, Graphics.font.kLanguageJapanese)
+    else
+        return Graphics.getLocalizedText(key, Graphics.font.kLanguageEnglish)
+    end
 end

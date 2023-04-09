@@ -1,5 +1,10 @@
--- These are example strings.
-"menuResumeGame" =		"サイカイ "
-"menuNewGame" =			"アタラシイゲーム"
-"menuOptions" =			"セッテイ"
-"menuCredits" =			"クレジット"
+"fireball" =		    "ファイアーボール"
+"zap" =			        "ザップ"
+"lightningStrike" =		"サンダーボルト"
+"stoneWall" =			"石垣"
+"investigate" =         "勉強"
+
+"damageDescription" =   "{}ダメージを与える。"
+"aoeDescription" =      "敵全休に{}ダメージを与える。"
+"shieldDescription" =   "{}シールドを得る。"
+"drawDescription" =     "カードを{}枚引く。"

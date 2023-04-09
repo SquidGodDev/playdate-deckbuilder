@@ -1,4 +1,10 @@
 "fireball" =		    "Fireball"
 "zap" =			        "Zap"
 "lightningStrike" =		"Lightning Strike"
-"earthWall" =			"Earth Wall"
+"stoneWall" =			"Stone Wall"
+"investigate" =         "Investigate"
+
+"damageDescription" =   "Deal {} damage."
+"aoeDescription" =      "Deal {} to ALL enemies."
+"shieldDescription" =   "Gain {} shield."
+"drawDescription" =     "Draw {} cards."

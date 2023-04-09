@@ -1,5 +1,6 @@
 local cardBase <const> = Graphics.imagetable.new("assets/images/cards/cardBase")
 local cardImagetables <const> = CARD_IMAGETABLES
+local isJapanese = playdate.getSystemLanguage() == Graphics.font.kLanguageJapanese
 
 class('Card').extends(NobleSprite)
 
@@ -24,20 +25,38 @@ function Card:init(data)
     self.drawLoopIndex = math.random(1, #self.baseImagetable)
 end
 
-function Card:getStats()
-    local modifiedStats = table.shallowcopy(self.stats)
-    for stat, flatModifier in pairs(self.flatModifiers) do
-        local modifiedStat = modifiedStats[stat] + flatModifier
-        if modifiedStat < 0 then
-            modifiedStat = 0
+-- function Card:getStats()
+--     local modifiedStats = table.shallowcopy(self.stats)
+--     for stat, flatModifier in pairs(self.flatModifiers) do
+--         local modifiedStat = modifiedStats[stat] + flatModifier
+--         if modifiedStat < 0 then
+--             modifiedStat = 0
+--         end
+--         modifiedStats[stat] = modifiedStat
+--     end
+--     for stat, multiplicativeModifier in pairs(self.multiplicativeModifiers) do
+--         local modifiedStat = modifiedStats[stat] * multiplicativeModifier
+--         modifiedStats[stat] = math.floor(modifiedStat + 0.5)
+--     end
+--     return modifiedStats
+-- end
+
+function Card:getSpellName()
+    local spellNameKey = self.data.name
+    return Utilities.getLocalizedString(spellNameKey)
+end
+
+function Card:getSpellDescription()
+    local descriptionTable = {}
+    for i=1, #self.properties do
+        local property = self.properties[i]
+        local propertyDescription = property:getDescription()
+        table.insert(descriptionTable, propertyDescription)
+        if i ~= #self.properties then
+            table.insert(descriptionTable, " ")
         end
-        modifiedStats[stat] = modifiedStat
     end
-    for stat, multiplicativeModifier in pairs(self.multiplicativeModifiers) do
-        local modifiedStat = modifiedStats[stat] * multiplicativeModifier
-        modifiedStats[stat] = math.floor(modifiedStat + 0.5)
-    end
-    return modifiedStats
+    return table.concat(descriptionTable)
 end
 
 function Card:isSingleTarget()

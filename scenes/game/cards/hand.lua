@@ -83,6 +83,14 @@ function Hand:selectCardRight()
     self.cardSelectIndex = math.ringInt(self.cardSelectIndex + 1, 1, #self.cards)
 end
 
+function Hand:getHand()
+    return self.cards
+end
+
+function Hand:getSelectedIndex()
+    return self.cardSelectIndex
+end
+
 function Hand:drawCard(count)
     if #self.cards >= MAX_HAND_SIZE then
         return
