@@ -1,7 +1,12 @@
-TEST_LOCALIZATION = false
+import 'libraries/noble/Noble'
+
+TEST_LOCALIZATION = true
+Japanese_Font = Graphics.font.new("assets/fonts/MadouFutoMaruGothic-d9Xo7-12")
+
+local mainFont = Graphics.font.new("assets/fonts/WhackyJoeMonospaced-12")
+Noble.Text.setFont(mainFont)
 
 -- Libraries
-import 'libraries/noble/Noble'
 import 'utilities/Utilities'
 
 -- Properties
@@ -44,10 +49,6 @@ import 'scenes/game/enemies/enemy'
 import 'scenes/game/enemies/basicEnemy'
 
 -- Noble.showFPS = true
-
-local mainFont = Graphics.font.new("assets/fonts/WhackyJoeMonospaced-12")
-Noble.Text.setFont(mainFont)
-
 Graphics.setBackgroundColor(Graphics.kColorBlack)
 
 Noble.GameData.setup(

@@ -43,7 +43,7 @@ end
 
 local descriptionBackground = Graphics.imagetable.new("assets/images/ui/cardInspector/descriptionBackground")
 local isJapanese = TEST_LOCALIZATION or (playdate.getSystemLanguage() == Graphics.font.kLanguageJapanese)
-local japaneseFont = Graphics.font.new("assets/fonts/JF-Dot-milkjf16B-12")
+local japaneseFont = Japanese_Font
 
 function CardInspector:createDescriptionSprite(card)
     local descriptionSprite = NobleSprite()
