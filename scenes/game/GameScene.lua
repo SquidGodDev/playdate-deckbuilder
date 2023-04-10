@@ -92,7 +92,7 @@ function GameScene:update()
             if not self.hand:isEmpty() and self.hand:hasEnoughMana() then
                 self.state = GAME_STATE.selectingCard
                 if self.hand:cardIsSingleTarget() then
-                    self.cardInspector:animateOut()
+                    self.cardInspector:animateOut(false)
                     self:switchToTargetSelection()
                 else
                     self.cardInspector:animateOut(true)
@@ -101,7 +101,7 @@ function GameScene:update()
                 end
             end
         elseif playdate.buttonJustPressed(playdate.kButtonB) then
-            self.cardInspector:animateOut()
+            self.cardInspector:animateOut(true)
             self.cardInspector = nil
             self.state = GAME_STATE.selectingCard
         elseif playdate.buttonJustPressed(playdate.kButtonLeft) then

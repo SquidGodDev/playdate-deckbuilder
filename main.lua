@@ -48,7 +48,7 @@ import 'scenes/game/enemies/enemyManager'
 import 'scenes/game/enemies/enemy'
 import 'scenes/game/enemies/basicEnemy'
 
--- Noble.showFPS = true
+Noble.showFPS = true
 Graphics.setBackgroundColor(Graphics.kColorBlack)
 
 Noble.GameData.setup(

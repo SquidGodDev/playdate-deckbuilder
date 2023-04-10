@@ -6,7 +6,7 @@ class('AoeDamage').extends(Property)
 function AoeDamage:init(stats)
     AoeDamage.super.init(self, stats)
     assert(stats.damage)
-    self.descriptionName = "drawDescription"
+    self.descriptionName = "aoeDescription"
 end
 
 function AoeDamage:onPlay(stats, card, game, index)

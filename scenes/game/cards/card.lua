@@ -18,11 +18,12 @@ function Card:init(data)
     self.multiplicativeModifiers = {}
 
     self.baseImagetable = self:createCardImagetable(data)
-    self:createAnimationLoop(data.stats.cost)
 
     self.drawLoopDuration = 6
     self.drawLoopCounter = math.random(1, self.drawLoopDuration)
     self.drawLoopIndex = math.random(1, #self.baseImagetable)
+
+    self:createAnimationLoop(data.stats.cost)
 end
 
 -- function Card:getStats()
@@ -133,13 +134,13 @@ function Card:update()
     if self.drawLoopCounter >= self.drawLoopDuration then
         self.drawLoopCounter = 0
         self.drawLoopIndex = (self.drawLoopIndex % #self.imagetable) + 1
+        self:setImage(self.imagetable[self.drawLoopIndex])
     end
-    self:setImage(self.imagetable[self.drawLoopIndex])
 end
 
 function Card:createAnimationLoop(cost)
     self.imagetable = self:getCardImagetableWithCost(cost)
-    self:setImage(self.imagetable[1])
+    self:setImage(self.imagetable[self.drawLoopIndex])
 end
 
 function Card:getCardImagetableWithCost(cost)

@@ -45,23 +45,35 @@ local descriptionBackground = Graphics.imagetable.new("assets/images/ui/cardInsp
 local isJapanese = TEST_LOCALIZATION or (playdate.getSystemLanguage() == Graphics.font.kLanguageJapanese)
 local japaneseFont = Japanese_Font
 
+local descriptionCache = {}
+
 function CardInspector:createDescriptionSprite(card)
     local descriptionSprite = NobleSprite()
-    local descriptionImagetable = Graphics.imagetable.new(#descriptionBackground)
     local spellName = card:getSpellName()
-    local spellDescription = card:getSpellDescription()
-    for i=1, #descriptionBackground do
-        local descriptionImage = descriptionBackground[i]:copy()
-        Graphics.pushContext(descriptionImage)
-            if isJapanese then
-                Graphics.setFont(japaneseFont)
-            end
-            Graphics.setImageDrawMode(Graphics.kDrawModeFillWhite)
-            Graphics.drawTextInRect(spellDescription, 19, 53, 185, 113, nil, nil, kTextAlignment.center)
-            Graphics.setImageDrawMode(Graphics.kDrawModeFillBlack)
-            Graphics.drawTextAligned(spellName, 108, 14, kTextAlignment.center)
-        Graphics.popContext()
-        descriptionImagetable:setImage(i, descriptionImage)
+    local descriptionImagetable = descriptionCache[spellName]
+    if not descriptionImagetable then
+        descriptionImagetable = Graphics.imagetable.new(#descriptionBackground)
+        local spellDescription = card:getSpellDescription()
+        for i=1, #descriptionBackground do
+            local descriptionImage = descriptionBackground[i]:copy()
+            Graphics.pushContext(descriptionImage)
+                if isJapanese then
+                    Graphics.setFont(japaneseFont)
+                end
+                Graphics.setImageDrawMode(Graphics.kDrawModeFillWhite)
+                local textImage = Graphics.imageWithText(spellDescription, 185, 113, nil, nil, nil, kTextAlignment.center, nil)
+                textImage:drawAnchored(109, 107, 0.5, 0.5)
+                -- Graphics.drawTextInRect(spellDescription, 19, 53, 185, 113, nil, nil, kTextAlignment.center)
+                Graphics.setImageDrawMode(Graphics.kDrawModeFillBlack)
+                local nameY = 14
+                if isJapanese then
+                    nameY = 18
+                end
+                Graphics.drawTextAligned(spellName, 108, nameY, kTextAlignment.center)
+            Graphics.popContext()
+            descriptionImagetable:setImage(i, descriptionImage)
+        end
+        descriptionCache[spellName] = descriptionImagetable
     end
     Utilities.animateSprite(descriptionSprite, descriptionImagetable)
     return descriptionSprite
