@@ -16,13 +16,14 @@ function Utilities.createAnimatedSprite(imagetable)
     sprite.drawLoopDuration = loopDuration
     sprite.drawLoopIndex = math.random(1, #imagetable)
     sprite.imagetable = imagetable
+    sprite:setImage(imagetable[sprite.drawLoopIndex])
     sprite.update = function(self)
         self.drawLoopCounter += 1
         if self.drawLoopCounter >= self.drawLoopDuration then
             self.drawLoopCounter = 1
             self.drawLoopIndex = (self.drawLoopIndex % #self.imagetable) + 1
+            self:setImage(self.imagetable[self.drawLoopIndex])
         end
-        self:setImage(self.imagetable[self.drawLoopIndex])
     end
     return sprite
 end
