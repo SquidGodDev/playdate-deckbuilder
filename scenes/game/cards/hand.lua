@@ -70,17 +70,17 @@ function Hand:disable()
 end
 
 function Hand:selectCardLeft()
-    if #self.cards <= 0 then
+    if #self.cards <= 0 or self.cardSelectIndex <= 1 then
         return
     end
-    self.cardSelectIndex = math.ringInt(self.cardSelectIndex - 1, 1, #self.cards)
+    self.cardSelectIndex -= 1
 end
 
 function Hand:selectCardRight()
-    if #self.cards <= 0 then
+    if #self.cards <= 0 or self.cardSelectIndex >= #self.cards then
         return
     end
-    self.cardSelectIndex = math.ringInt(self.cardSelectIndex + 1, 1, #self.cards)
+    self.cardSelectIndex += 1
 end
 
 function Hand:getHand()

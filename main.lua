@@ -1,6 +1,6 @@
 import 'libraries/noble/Noble'
 
-TEST_LOCALIZATION = true
+TEST_LOCALIZATION = false
 Japanese_Font = Graphics.font.new("assets/fonts/MadouFutoMaruGothic-d9Xo7-12")
 
 local mainFont = Graphics.font.new("assets/fonts/WhackyJoeMonospaced-12")
@@ -48,7 +48,7 @@ import 'scenes/game/enemies/enemyManager'
 import 'scenes/game/enemies/enemy'
 import 'scenes/game/enemies/basicEnemy'
 
-Noble.showFPS = true
+Noble.showFPS = false
 Graphics.setBackgroundColor(Graphics.kColorBlack)
 
 Noble.GameData.setup(
